@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Test cases for the ASDF validator script.
+Test cases for the ASDF validator script. Execute with ``$ py.test``.
 
 Most of these will actually execute via subprocess calls to test how people
 will actually use it.
@@ -68,3 +68,19 @@ def test_error_message_not_a_file(tmpdir, cli):
     assert output.exit_status == 1
     assert output.stdout == ""
     assert "is not a file" in output.stderr.lower()
+
+
+def test_not_an_hdf5_file(tmpdir, cli):
+    """
+    Run against a file thats not an HDF5 file.
+    """
+    # Create some random file.
+    filename = os.path.join(tmpdir.dirname, "bla")
+    with open(filename, "w") as fh:
+        fh.write("aasd;flkjasdl;fj")
+
+    output = cli.run("asdf-validate %s" % filename)
+
+    assert output.exit_status == 1
+    assert output.stdout == ""
+    assert "not an hdf5 file" in output.stderr.lower()

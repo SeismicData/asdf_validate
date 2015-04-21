@@ -29,10 +29,22 @@ def _log_error(message):
 def validate(filename):
     # Start with the very basic checks. Check if the file exists.
     if not os.path.exists(filename):
-        _log_error("Path '%s' does not exist" % filename)
+        _log_error("Path '%s' does not exist." % filename)
     # Make sure its a file.
     if not os.path.isfile(filename):
-        _log_error("Path '%s' is not a file" % filename)
+        _log_error("Path '%s' is not a file." % filename)
+
+    try:
+        f = h5py.File(filename, "r")
+    except OSError:
+        _log_error("Not an HDF5 file.")
+
+    with f:
+        _validate(f)
+
+
+def _validate(f):
+    pass
 
 
 def main():
