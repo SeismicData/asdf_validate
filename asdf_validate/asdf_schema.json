@@ -1,7 +1,61 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
+
   "id": "/",
+
   "type": "object",
+
+  "definitions": {
+
+    "scalar_data_space": {
+      "type": "object",
+      "description": "A simple scalar dataspace",
+      "required": ["ScalarDataspace"],
+      "properties": {
+        "ScalarDataspace": {
+          "type": "null"
+        }
+      }
+    },
+
+    "string_attribute_data_type": {
+      "type": "object",
+      "description": "The datatype of string attributes.",
+      "properties": {
+        "StringType": {
+          "type": "object",
+          "required": ["@Cset", "@StrSize", "@StrPad"],
+          "properties": {
+            "@Cset": {
+              "type": "string",
+              "description": "Force ASCII Strings.",
+              "enum": ["H5T_CSET_ASCII"]
+            },
+            "@StrSize": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "@StrPad": {
+              "type": "string",
+              "description": "Force zero padding.",
+              "enum": ["H5T_STR_NULLPAD"]
+            }
+          }
+        }
+      }
+    },
+
+    "string_attribute": {
+      "type": "object",
+      "description": "ASDF string attribute including data space and type.",
+      "properties": {
+        "Dataspace": {"$ref": "#/definitions/scalar_data_space"},
+        "DataType": {"$ref": "#/definitions/string_attribute_data_type"}  
+      }
+    }
+
+  },
+
   "properties": {
     "groups": {
       "id": "groups",
@@ -363,7 +417,7 @@
                                             },
                                             "@StrSize": {
                                               "id": "@StrSize",
-                                              "type": "string"
+                                              "type": "integer"
                                             },
                                             "@StrPad": {
                                               "id": "@StrPad",
@@ -403,7 +457,7 @@
                                             },
                                             "@StrSize": {
                                               "id": "@StrSize",
-                                              "type": "string"
+                                              "type": "integer"
                                             },
                                             "@StrPad": {
                                               "id": "@StrPad",
@@ -443,7 +497,7 @@
                                             },
                                             "@StrSize": {
                                               "id": "@StrSize",
-                                              "type": "string"
+                                              "type": "integer"
                                             },
                                             "@StrPad": {
                                               "id": "@StrPad",
@@ -523,7 +577,7 @@
                                             },
                                             "@StrSize": {
                                               "id": "@StrSize",
-                                              "type": "string"
+                                              "type": "integer"
                                             },
                                             "@StrPad": {
                                               "id": "@StrPad",
@@ -673,90 +727,11 @@
       }
     },
     "attributes": {
-      "id": "attributes",
       "type": "object",
       "required": ["file_format_version", "file_format"],
       "properties": {
-        "file_format_version": {
-          "id": "file_format_version",
-          "type": "object",
-          "properties": {
-            "Dataspace": {
-              "id": "Dataspace",
-              "type": "object",
-              "properties": {
-                "ScalarDataspace": {
-                  "id": "ScalarDataspace",
-                  "type": "null"
-                }
-              }
-            },
-            "DataType": {
-              "id": "DataType",
-              "type": "object",
-              "properties": {
-                "StringType": {
-                  "id": "StringType",
-                  "type": "object",
-                  "properties": {
-                    "@Cset": {
-                      "id": "@Cset",
-                      "type": "string"
-                    },
-                    "@StrSize": {
-                      "id": "@StrSize",
-                      "type": "string"
-                    },
-                    "@StrPad": {
-                      "id": "@StrPad",
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "file_format": {
-          "id": "file_format",
-          "type": "object",
-          "properties": {
-            "Dataspace": {
-              "id": "Dataspace",
-              "type": "object",
-              "properties": {
-                "ScalarDataspace": {
-                  "id": "ScalarDataspace",
-                  "type": "null"
-                }
-              }
-            },
-            "DataType": {
-              "id": "DataType",
-              "type": "object",
-              "properties": {
-                "StringType": {
-                  "id": "StringType",
-                  "type": "object",
-                  "properties": {
-                    "@Cset": {
-                      "id": "@Cset",
-                      "type": "string"
-                    },
-                    "@StrSize": {
-                      "id": "@StrSize",
-                      "type": "string"
-                    },
-                    "@StrPad": {
-                      "id": "@StrPad",
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+        "file_format_version": {"$ref": "#/definitions/string_attribute"},
+        "file_format": {"$ref": "#/definitions/string_attribute"}
       }
     }
   }

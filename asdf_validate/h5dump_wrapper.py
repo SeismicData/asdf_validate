@@ -93,7 +93,18 @@ def r_transform_dict(d):
                 del d[src]
                 d[dst] = data
 
-        # Now check if any of the value is a list of dicionaries and each
+        # Force the types of certain keys if possible.
+        conversions = {"@StrSize": int}
+        for key, convert in conversions.items():
+            if key in d:
+                data = d[key]
+                del d[key]
+                try:
+                    d[key] = convert(data)
+                except ValueError:
+                    pass
+
+        # Now check if any of the value is a list of dictionaries and each
         # dictionary has a "@Name" key. In that case it can be rewritten as a
         # dict.
         # Alternatively the value can be a dictionary with a '@Name' key.
