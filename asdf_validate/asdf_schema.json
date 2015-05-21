@@ -1,0 +1,261 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "/",
+  "type": "object",
+  "required": ["__attributes"],
+  "properties": {
+    "Provenance": {
+      "id": "Provenance",
+      "type": "object",
+      "properties": {}
+    },
+    "Waveforms": {
+      "id": "Waveforms",
+      "type": "object",
+      "properties": {
+        "IV.BOB": {
+          "id": "IV.BOB",
+          "type": "object",
+          "properties": {
+            "IV.BOB..BHN__2015-04-25T07:26:03__2015-04-25T07:36:42__raw_recording": {
+              "id": "IV.BOB..BHN__2015-04-25T07:26:03__2015-04-25T07:36:42__raw_recording",
+              "type": "object",
+              "properties": {
+                "Dataset": {
+                  "id": "Dataset",
+                  "type": "array",
+                  "items": {
+                    "id": "10",
+                    "type": "object",
+                    "properties": {
+                      "Data": {
+                        "id": "Data",
+                        "type": "array",
+                        "items": {
+                          "id": "0",
+                          "type": "object",
+                          "properties": {
+                            "NoData": {
+                              "id": "NoData",
+                              "type": "array",
+                              "items": {}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "StationXML": {
+              "id": "StationXML",
+              "type": "object",
+              "properties": {
+                "Dataset": {
+                  "id": "Dataset",
+                  "type": "array",
+                  "items": {
+                    "id": "4",
+                    "type": "object",
+                    "properties": {
+                      "Data": {
+                        "id": "Data",
+                        "type": "array",
+                        "items": {
+                          "id": "0",
+                          "type": "object",
+                          "properties": {
+                            "NoData": {
+                              "id": "NoData",
+                              "type": "array",
+                              "items": {}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "__attributes": {
+      "id": "__attributes",
+      "type": "object",
+      "properties": {
+        "file_format": {
+          "id": "file_format",
+          "type": "array",
+          "items": {
+            "id": "file_format_attribute",
+            "type": "object",
+            "properties": {
+              "DataType": {
+                "id": "DataType",
+                "type": "array",
+                "items": {
+                  "id": "0",
+                  "type": "object",
+                  "properties": {
+                    "AtomicType": {
+                      "id": "AtomicType",
+                      "type": "array",
+                      "items": {
+                        "id": "0",
+                        "type": "object",
+                        "properties": {
+                          "StringType": {
+                            "id": "StringType",
+                            "type": "array",
+                            "items": {}
+                          },
+                          "@StrSize": {
+                            "id": "@StrSize",
+                            "type": "string"
+                          },
+                          "@StrPad": {
+                            "id": "@StrPad",
+                            "type": "string"
+                          },
+                          "@Cset": {
+                            "id": "@Cset",
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "file_format_version": {
+          "id": "file_format_version",
+          "type": "array",
+          "items": {
+            "id": "file_format_version_attribute",
+            "type": "object",
+            "properties": {
+              "DataType": {
+                "id": "DataType",
+                "type": "array",
+                "items": {
+                  "id": "0",
+                  "type": "object",
+                  "properties": {
+                    "AtomicType": {
+                      "id": "AtomicType",
+                      "type": "array",
+                      "items": {
+                        "id": "0",
+                        "type": "object",
+                        "properties": {
+                          "StringType": {
+                            "id": "StringType",
+                            "type": "array",
+                            "items": {}
+                          },
+                          "@StrSize": {
+                            "id": "@StrSize",
+                            "type": "string"
+                          },
+                          "@StrPad": {
+                            "id": "@StrPad",
+                            "type": "string"
+                          },
+                          "@Cset": {
+                            "id": "@Cset",
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "AuxiliaryData": {
+      "id": "AuxiliaryData",
+      "type": "object",
+      "properties": {
+        "RandomArrays": {
+          "id": "RandomArrays",
+          "type": "object",
+          "properties": {
+            "example_array": {
+              "id": "example_array",
+              "type": "object",
+              "properties": {
+                "Dataset": {
+                  "id": "Dataset",
+                  "type": "array",
+                  "items": {
+                    "id": "6",
+                    "type": "object",
+                    "properties": {
+                      "Data": {
+                        "id": "Data",
+                        "type": "array",
+                        "items": {
+                          "id": "0",
+                          "type": "object",
+                          "properties": {
+                            "NoData": {
+                              "id": "NoData",
+                              "type": "array",
+                              "items": {}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "QuakeML": {
+      "id": "QuakeML",
+      "type": "object",
+      "properties": {
+        "Dataset": {
+          "id": "Dataset",
+          "type": "array",
+          "items": {
+            "id": "4",
+            "type": "object",
+            "properties": {
+              "Data": {
+                "id": "Data",
+                "type": "array",
+                "items": {
+                  "id": "0",
+                  "type": "object",
+                  "properties": {
+                    "NoData": {
+                      "id": "NoData",
+                      "type": "array",
+                      "items": {}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -13,12 +13,20 @@ from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
 
 import argparse
+import inspect
+import io
+import json
 import os
 import sys
 
 import h5py
+import jsonschema
 
 from .h5dump_wrapper import get_header_as_dict
+
+# Directory of the file.
+_DIR = os.path.dirname(
+    os.path.abspath(inspect.getfile(inspect.currentframe())))
 
 
 def _log_error(message):
@@ -52,17 +60,15 @@ def _validate(f, filename):
 def _validate_scheme(filename):
     header = get_header_as_dict(filename)
 
-    ################
-    # DEBUGGING START
-    import sys
-    __o_std__ = sys.stdout
-    sys.stdout = sys.__stdout__
-    from IPython.core.debugger import Tracer
-    Tracer(colors="Linux")()
-    sys.stdout = __o_std__
-    # DEBUGGING END
-    ################
+    # Open JSON schema.
+    with io.open(os.path.join(_DIR, "asdf_schema.json"), "rt") as fh:
+        schema = json.load(fh)
 
+    # Validate the schema to avoid silly errors.
+    jsonschema.Draft4Validator.check_schema(schema)
+
+    # Validate h5dump output against schema.
+    jsonschema.validate(header, schema)
 
 
 def main():
