@@ -1,142 +1,200 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-
+  "id": "/",
   "type": "object",
-
-  "required": ["__attributes"],
-
-  "additionalItems": true,
-
-  "definitions": {
-    "string_attribute": {
-      "description": "Type used for simple HDF5 String Attributes", 
-      "type": "array",
-      "properties": {
-
-      }
-    }
-  },
-
   "properties": {
-    "Provenance": {
-      "id": "Provenance",
-      "type": "object",
-      "properties": {}
-    },
-    "Waveforms": {
-      "id": "Waveforms",
+    "groups": {
+      "id": "groups",
       "type": "object",
       "properties": {
-        "IV.BOB": {
-          "id": "IV.BOB",
+        "AuxiliaryData": {
+          "id": "AuxiliaryData",
           "type": "object",
           "properties": {
-            "IV.BOB..BHN__2015-04-25T07:26:03__2015-04-25T07:36:42__raw_recording": {
-              "id": "IV.BOB..BHN__2015-04-25T07:26:03__2015-04-25T07:36:42__raw_recording",
+            "groups": {
+              "id": "groups",
               "type": "object",
               "properties": {
-                "Dataset": {
-                  "id": "Dataset",
-                  "type": "array",
-                  "items": {
-                    "id": "10",
-                    "type": "object",
-                    "properties": {
-                      "Data": {
-                        "id": "Data",
-                        "type": "array",
-                        "items": {
-                          "id": "0",
-                          "type": "object",
-                          "properties": {
-                            "NoData": {
-                              "id": "NoData",
-                              "type": "array",
-                              "items": {}
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "StationXML": {
-              "id": "StationXML",
-              "type": "object",
-              "properties": {
-                "Dataset": {
-                  "id": "Dataset",
-                  "type": "array",
-                  "items": {
-                    "id": "4",
-                    "type": "object",
-                    "properties": {
-                      "Data": {
-                        "id": "Data",
-                        "type": "array",
-                        "items": {
-                          "id": "0",
-                          "type": "object",
-                          "properties": {
-                            "NoData": {
-                              "id": "NoData",
-                              "type": "array",
-                              "items": {}
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "__attributes": {
-      "type": "object",
-      "additionalItems": true,
-      "required": ["file_format", "file_format_version"],
-      "properties": {
-        "file_format": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "DataType": {
-                "id": "DataType",
-                "type": "array",
-                "items": {
-                  "id": "0",
+                "RandomArrays": {
+                  "id": "RandomArrays",
                   "type": "object",
                   "properties": {
-                    "AtomicType": {
-                      "id": "AtomicType",
-                      "type": "array",
-                      "items": {
-                        "id": "0",
-                        "type": "object",
-                        "properties": {
-                          "StringType": {
-                            "id": "StringType",
-                            "type": "array",
-                            "items": {}
-                          },
-                          "@StrSize": {
-                            "id": "@StrSize",
-                            "type": "string"
-                          },
-                          "@StrPad": {
-                            "id": "@StrPad",
-                            "type": "string"
-                          },
-                          "@Cset": {
-                            "id": "@Cset",
-                            "type": "string"
+                    "datasets": {
+                      "id": "datasets",
+                      "type": "object",
+                      "properties": {
+                        "example_array": {
+                          "id": "example_array",
+                          "type": "object",
+                          "properties": {
+                            "Dataspace": {
+                              "id": "Dataspace",
+                              "type": "object",
+                              "properties": {
+                                "SimpleDataspace": {
+                                  "id": "SimpleDataspace",
+                                  "type": "object",
+                                  "properties": {
+                                    "@Ndims": {
+                                      "id": "@Ndims",
+                                      "type": "string"
+                                    },
+                                    "Dimension": {
+                                      "id": "Dimension",
+                                      "type": "object",
+                                      "properties": {
+                                        "@MaxDimSize": {
+                                          "id": "@MaxDimSize",
+                                          "type": "string"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "DataType": {
+                              "id": "DataType",
+                              "type": "object",
+                              "properties": {
+                                "FloatType": {
+                                  "id": "FloatType",
+                                  "type": "object",
+                                  "properties": {
+                                    "@ByteOrder": {
+                                      "id": "@ByteOrder",
+                                      "type": "string"
+                                    },
+                                    "@Size": {
+                                      "id": "@Size",
+                                      "type": "string"
+                                    },
+                                    "@SignBitLocation": {
+                                      "id": "@SignBitLocation",
+                                      "type": "string"
+                                    },
+                                    "@ExponentBits": {
+                                      "id": "@ExponentBits",
+                                      "type": "string"
+                                    },
+                                    "@ExponentLocation": {
+                                      "id": "@ExponentLocation",
+                                      "type": "string"
+                                    },
+                                    "@MantissaBits": {
+                                      "id": "@MantissaBits",
+                                      "type": "string"
+                                    },
+                                    "@MantissaLocation": {
+                                      "id": "@MantissaLocation",
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "attributes": {
+                              "id": "attributes",
+                              "type": "object",
+                              "properties": {
+                                "b": {
+                                  "id": "b",
+                                  "type": "object",
+                                  "properties": {
+                                    "Dataspace": {
+                                      "id": "Dataspace",
+                                      "type": "object",
+                                      "properties": {
+                                        "ScalarDataspace": {
+                                          "id": "ScalarDataspace",
+                                          "type": "null"
+                                        }
+                                      }
+                                    },
+                                    "DataType": {
+                                      "id": "DataType",
+                                      "type": "object",
+                                      "properties": {
+                                        "FloatType": {
+                                          "id": "FloatType",
+                                          "type": "object",
+                                          "properties": {
+                                            "@ByteOrder": {
+                                              "id": "@ByteOrder",
+                                              "type": "string"
+                                            },
+                                            "@Size": {
+                                              "id": "@Size",
+                                              "type": "string"
+                                            },
+                                            "@SignBitLocation": {
+                                              "id": "@SignBitLocation",
+                                              "type": "string"
+                                            },
+                                            "@ExponentBits": {
+                                              "id": "@ExponentBits",
+                                              "type": "string"
+                                            },
+                                            "@ExponentLocation": {
+                                              "id": "@ExponentLocation",
+                                              "type": "string"
+                                            },
+                                            "@MantissaBits": {
+                                              "id": "@MantissaBits",
+                                              "type": "string"
+                                            },
+                                            "@MantissaLocation": {
+                                              "id": "@MantissaLocation",
+                                              "type": "string"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                "a": {
+                                  "id": "a",
+                                  "type": "object",
+                                  "properties": {
+                                    "Dataspace": {
+                                      "id": "Dataspace",
+                                      "type": "object",
+                                      "properties": {
+                                        "ScalarDataspace": {
+                                          "id": "ScalarDataspace",
+                                          "type": "null"
+                                        }
+                                      }
+                                    },
+                                    "DataType": {
+                                      "id": "DataType",
+                                      "type": "object",
+                                      "properties": {
+                                        "IntegerType": {
+                                          "id": "IntegerType",
+                                          "type": "object",
+                                          "properties": {
+                                            "@ByteOrder": {
+                                              "id": "@ByteOrder",
+                                              "type": "string"
+                                            },
+                                            "@Sign": {
+                                              "id": "@Sign",
+                                              "type": "string"
+                                            },
+                                            "@Size": {
+                                              "id": "@Size",
+                                              "type": "string"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
                           }
                         }
                       }
@@ -147,83 +205,393 @@
             }
           }
         },
-        "file_format_version": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "DataType": {
-                "id": "DataType",
-                "type": "array",
-                "items": {
-                  "id": "0",
-                  "type": "object",
-                  "properties": {
-                    "AtomicType": {
-                      "id": "AtomicType",
-                      "type": "array",
-                      "items": {
-                        "id": "0",
-                        "type": "object",
-                        "properties": {
-                          "StringType": {
-                            "id": "StringType",
-                            "type": "array",
-                            "items": {}
-                          },
-                          "@StrSize": {
-                            "id": "@StrSize",
-                            "type": "string"
-                          },
-                          "@StrPad": {
-                            "id": "@StrPad",
-                            "type": "string"
-                          },
-                          "@Cset": {
-                            "id": "@Cset",
-                            "type": "string"
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "AuxiliaryData": {
-      "id": "AuxiliaryData",
-      "type": "object",
-      "properties": {
-        "RandomArrays": {
-          "id": "RandomArrays",
+        "Waveforms": {
+          "id": "Waveforms",
           "type": "object",
           "properties": {
-            "example_array": {
-              "id": "example_array",
+            "groups": {
+              "id": "groups",
               "type": "object",
               "properties": {
-                "Dataset": {
-                  "id": "Dataset",
-                  "type": "array",
-                  "items": {
-                    "id": "6",
-                    "type": "object",
-                    "properties": {
-                      "Data": {
-                        "id": "Data",
-                        "type": "array",
-                        "items": {
-                          "id": "0",
+                "IV.BDI": {
+                  "id": "IV.BDI",
+                  "type": "object",
+                  "properties": {
+                    "datasets": {
+                      "id": "datasets",
+                      "type": "object",
+                      "properties": {
+                        "IV.BDI..BHE__2015-04-25T06:07:36__2015-04-25T06:18:02__raw_recording": {
+                          "id": "IV.BDI..BHE__2015-04-25T06:07:36__2015-04-25T06:18:02__raw_recording",
                           "type": "object",
                           "properties": {
-                            "NoData": {
-                              "id": "NoData",
-                              "type": "array",
-                              "items": {}
+                            "Dataspace": {
+                              "id": "Dataspace",
+                              "type": "object",
+                              "properties": {
+                                "SimpleDataspace": {
+                                  "id": "SimpleDataspace",
+                                  "type": "object",
+                                  "properties": {
+                                    "@Ndims": {
+                                      "id": "@Ndims",
+                                      "type": "string"
+                                    },
+                                    "Dimension": {
+                                      "id": "Dimension",
+                                      "type": "object",
+                                      "properties": {
+                                        "@MaxDimSize": {
+                                          "id": "@MaxDimSize",
+                                          "type": "string"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "DataType": {
+                              "id": "DataType",
+                              "type": "object",
+                              "properties": {
+                                "IntegerType": {
+                                  "id": "IntegerType",
+                                  "type": "object",
+                                  "properties": {
+                                    "@ByteOrder": {
+                                      "id": "@ByteOrder",
+                                      "type": "string"
+                                    },
+                                    "@Sign": {
+                                      "id": "@Sign",
+                                      "type": "string"
+                                    },
+                                    "@Size": {
+                                      "id": "@Size",
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "attributes": {
+                              "id": "attributes",
+                              "type": "object",
+                              "properties": {
+                                "sampling_rate": {
+                                  "id": "sampling_rate",
+                                  "type": "object",
+                                  "properties": {
+                                    "Dataspace": {
+                                      "id": "Dataspace",
+                                      "type": "object",
+                                      "properties": {
+                                        "ScalarDataspace": {
+                                          "id": "ScalarDataspace",
+                                          "type": "null"
+                                        }
+                                      }
+                                    },
+                                    "DataType": {
+                                      "id": "DataType",
+                                      "type": "object",
+                                      "properties": {
+                                        "FloatType": {
+                                          "id": "FloatType",
+                                          "type": "object",
+                                          "properties": {
+                                            "@ByteOrder": {
+                                              "id": "@ByteOrder",
+                                              "type": "string"
+                                            },
+                                            "@Size": {
+                                              "id": "@Size",
+                                              "type": "string"
+                                            },
+                                            "@SignBitLocation": {
+                                              "id": "@SignBitLocation",
+                                              "type": "string"
+                                            },
+                                            "@ExponentBits": {
+                                              "id": "@ExponentBits",
+                                              "type": "string"
+                                            },
+                                            "@ExponentLocation": {
+                                              "id": "@ExponentLocation",
+                                              "type": "string"
+                                            },
+                                            "@MantissaBits": {
+                                              "id": "@MantissaBits",
+                                              "type": "string"
+                                            },
+                                            "@MantissaLocation": {
+                                              "id": "@MantissaLocation",
+                                              "type": "string"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                "event_id": {
+                                  "id": "event_id",
+                                  "type": "object",
+                                  "properties": {
+                                    "Dataspace": {
+                                      "id": "Dataspace",
+                                      "type": "object",
+                                      "properties": {
+                                        "ScalarDataspace": {
+                                          "id": "ScalarDataspace",
+                                          "type": "null"
+                                        }
+                                      }
+                                    },
+                                    "DataType": {
+                                      "id": "DataType",
+                                      "type": "object",
+                                      "properties": {
+                                        "StringType": {
+                                          "id": "StringType",
+                                          "type": "object",
+                                          "properties": {
+                                            "@Cset": {
+                                              "id": "@Cset",
+                                              "type": "string"
+                                            },
+                                            "@StrSize": {
+                                              "id": "@StrSize",
+                                              "type": "string"
+                                            },
+                                            "@StrPad": {
+                                              "id": "@StrPad",
+                                              "type": "string"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                "focal_mechanism_id": {
+                                  "id": "focal_mechanism_id",
+                                  "type": "object",
+                                  "properties": {
+                                    "Dataspace": {
+                                      "id": "Dataspace",
+                                      "type": "object",
+                                      "properties": {
+                                        "ScalarDataspace": {
+                                          "id": "ScalarDataspace",
+                                          "type": "null"
+                                        }
+                                      }
+                                    },
+                                    "DataType": {
+                                      "id": "DataType",
+                                      "type": "object",
+                                      "properties": {
+                                        "StringType": {
+                                          "id": "StringType",
+                                          "type": "object",
+                                          "properties": {
+                                            "@Cset": {
+                                              "id": "@Cset",
+                                              "type": "string"
+                                            },
+                                            "@StrSize": {
+                                              "id": "@StrSize",
+                                              "type": "string"
+                                            },
+                                            "@StrPad": {
+                                              "id": "@StrPad",
+                                              "type": "string"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                "magnitude_id": {
+                                  "id": "magnitude_id",
+                                  "type": "object",
+                                  "properties": {
+                                    "Dataspace": {
+                                      "id": "Dataspace",
+                                      "type": "object",
+                                      "properties": {
+                                        "ScalarDataspace": {
+                                          "id": "ScalarDataspace",
+                                          "type": "null"
+                                        }
+                                      }
+                                    },
+                                    "DataType": {
+                                      "id": "DataType",
+                                      "type": "object",
+                                      "properties": {
+                                        "StringType": {
+                                          "id": "StringType",
+                                          "type": "object",
+                                          "properties": {
+                                            "@Cset": {
+                                              "id": "@Cset",
+                                              "type": "string"
+                                            },
+                                            "@StrSize": {
+                                              "id": "@StrSize",
+                                              "type": "string"
+                                            },
+                                            "@StrPad": {
+                                              "id": "@StrPad",
+                                              "type": "string"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                "starttime": {
+                                  "id": "starttime",
+                                  "type": "object",
+                                  "properties": {
+                                    "Dataspace": {
+                                      "id": "Dataspace",
+                                      "type": "object",
+                                      "properties": {
+                                        "ScalarDataspace": {
+                                          "id": "ScalarDataspace",
+                                          "type": "null"
+                                        }
+                                      }
+                                    },
+                                    "DataType": {
+                                      "id": "DataType",
+                                      "type": "object",
+                                      "properties": {
+                                        "IntegerType": {
+                                          "id": "IntegerType",
+                                          "type": "object",
+                                          "properties": {
+                                            "@ByteOrder": {
+                                              "id": "@ByteOrder",
+                                              "type": "string"
+                                            },
+                                            "@Sign": {
+                                              "id": "@Sign",
+                                              "type": "string"
+                                            },
+                                            "@Size": {
+                                              "id": "@Size",
+                                              "type": "string"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                "origin_id": {
+                                  "id": "origin_id",
+                                  "type": "object",
+                                  "properties": {
+                                    "Dataspace": {
+                                      "id": "Dataspace",
+                                      "type": "object",
+                                      "properties": {
+                                        "ScalarDataspace": {
+                                          "id": "ScalarDataspace",
+                                          "type": "null"
+                                        }
+                                      }
+                                    },
+                                    "DataType": {
+                                      "id": "DataType",
+                                      "type": "object",
+                                      "properties": {
+                                        "StringType": {
+                                          "id": "StringType",
+                                          "type": "object",
+                                          "properties": {
+                                            "@Cset": {
+                                              "id": "@Cset",
+                                              "type": "string"
+                                            },
+                                            "@StrSize": {
+                                              "id": "@StrSize",
+                                              "type": "string"
+                                            },
+                                            "@StrPad": {
+                                              "id": "@StrPad",
+                                              "type": "string"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "StationXML": {
+                          "id": "StationXML",
+                          "type": "object",
+                          "properties": {
+                            "Dataspace": {
+                              "id": "Dataspace",
+                              "type": "object",
+                              "properties": {
+                                "SimpleDataspace": {
+                                  "id": "SimpleDataspace",
+                                  "type": "object",
+                                  "properties": {
+                                    "@Ndims": {
+                                      "id": "@Ndims",
+                                      "type": "string"
+                                    },
+                                    "Dimension": {
+                                      "id": "Dimension",
+                                      "type": "object",
+                                      "properties": {
+                                        "@MaxDimSize": {
+                                          "id": "@MaxDimSize",
+                                          "type": "string"
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "DataType": {
+                              "id": "DataType",
+                              "type": "object",
+                              "properties": {
+                                "IntegerType": {
+                                  "id": "IntegerType",
+                                  "type": "object",
+                                  "properties": {
+                                    "@ByteOrder": {
+                                      "id": "@ByteOrder",
+                                      "type": "string"
+                                    },
+                                    "@Sign": {
+                                      "id": "@Sign",
+                                      "type": "string"
+                                    },
+                                    "@Size": {
+                                      "id": "@Size",
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
                             }
                           }
                         }
@@ -234,31 +602,154 @@
               }
             }
           }
+        },
+        "Provenance": {
+          "id": "Provenance",
+          "type": "object",
+          "properties": {}
         }
       }
     },
-    "QuakeML": {
-      "id": "QuakeML",
+    "datasets": {
+      "id": "datasets",
       "type": "object",
       "properties": {
-        "Dataset": {
-          "id": "Dataset",
-          "type": "array",
-          "items": {
-            "id": "4",
-            "type": "object",
-            "properties": {
-              "Data": {
-                "id": "Data",
-                "type": "array",
-                "items": {
-                  "id": "0",
+        "QuakeML": {
+          "id": "QuakeML",
+          "type": "object",
+          "properties": {
+            "Dataspace": {
+              "id": "Dataspace",
+              "type": "object",
+              "properties": {
+                "SimpleDataspace": {
+                  "id": "SimpleDataspace",
                   "type": "object",
                   "properties": {
-                    "NoData": {
-                      "id": "NoData",
-                      "type": "array",
-                      "items": {}
+                    "@Ndims": {
+                      "id": "@Ndims",
+                      "type": "string"
+                    },
+                    "Dimension": {
+                      "id": "Dimension",
+                      "type": "object",
+                      "properties": {
+                        "@MaxDimSize": {
+                          "id": "@MaxDimSize",
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "DataType": {
+              "id": "DataType",
+              "type": "object",
+              "properties": {
+                "IntegerType": {
+                  "id": "IntegerType",
+                  "type": "object",
+                  "properties": {
+                    "@ByteOrder": {
+                      "id": "@ByteOrder",
+                      "type": "string"
+                    },
+                    "@Sign": {
+                      "id": "@Sign",
+                      "type": "string"
+                    },
+                    "@Size": {
+                      "id": "@Size",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "attributes": {
+      "id": "attributes",
+      "type": "object",
+      "required": ["file_format_version", "file_format"],
+      "properties": {
+        "file_format_version": {
+          "id": "file_format_version",
+          "type": "object",
+          "properties": {
+            "Dataspace": {
+              "id": "Dataspace",
+              "type": "object",
+              "properties": {
+                "ScalarDataspace": {
+                  "id": "ScalarDataspace",
+                  "type": "null"
+                }
+              }
+            },
+            "DataType": {
+              "id": "DataType",
+              "type": "object",
+              "properties": {
+                "StringType": {
+                  "id": "StringType",
+                  "type": "object",
+                  "properties": {
+                    "@Cset": {
+                      "id": "@Cset",
+                      "type": "string"
+                    },
+                    "@StrSize": {
+                      "id": "@StrSize",
+                      "type": "string"
+                    },
+                    "@StrPad": {
+                      "id": "@StrPad",
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "file_format": {
+          "id": "file_format",
+          "type": "object",
+          "properties": {
+            "Dataspace": {
+              "id": "Dataspace",
+              "type": "object",
+              "properties": {
+                "ScalarDataspace": {
+                  "id": "ScalarDataspace",
+                  "type": "null"
+                }
+              }
+            },
+            "DataType": {
+              "id": "DataType",
+              "type": "object",
+              "properties": {
+                "StringType": {
+                  "id": "StringType",
+                  "type": "object",
+                  "properties": {
+                    "@Cset": {
+                      "id": "@Cset",
+                      "type": "string"
+                    },
+                    "@StrSize": {
+                      "id": "@StrSize",
+                      "type": "string"
+                    },
+                    "@StrPad": {
+                      "id": "@StrPad",
+                      "type": "string"
                     }
                   }
                 }

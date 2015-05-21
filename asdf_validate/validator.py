@@ -64,7 +64,7 @@ def _validate_scheme(filename):
     with io.open(os.path.join(_DIR, "asdf_schema.json"), "rt") as fh:
         schema = json.load(fh)
 
-    # Validate the schema to avoid silly errors.
+    # Validate the schema itself to avoid silly errors.
     jsonschema.Draft4Validator.check_schema(schema)
 
     # Validate h5dump output against schema.
