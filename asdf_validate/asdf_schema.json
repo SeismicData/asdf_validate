@@ -282,13 +282,13 @@
             "groups": {
               "type": "object",
               "properties": {
-                "IV.BDI": {
+                "IV.BOB": {
                   "type": "object",
                   "properties": {
                     "datasets": {
                       "type": "object",
                       "properties": {
-                        "IV.BDI..BHE__2015-04-25T06:07:36__2015-04-25T06:18:02__raw_recording": {
+                        "IV.BOB..BHZ__2014-04-04T01:47:38__2014-04-04T01:47:40__raw_recording": {
                           "type": "object",
                           "properties": {
                             "Dataspace": {
@@ -334,6 +334,10 @@
                             "attributes": {
                               "type": "object",
                               "properties": {
+                                "event_id": {"$ref": "#/definitions/string_attribute"},
+                                "focal_mechanism_id": {"$ref": "#/definitions/string_attribute"},
+                                "magnitude_id": {"$ref": "#/definitions/string_attribute"},
+                                "origin_id": {"$ref": "#/definitions/string_attribute"},
                                 "sampling_rate": {
                                   "type": "object",
                                   "properties": {
@@ -378,40 +382,6 @@
                                     }
                                   }
                                 },
-                                "event_id": {
-                                  "type": "object",
-                                  "properties": {
-                                    "Dataspace": {
-                                      "type": "object",
-                                      "properties": {
-                                        "ScalarDataspace": {
-                                          "type": "null"
-                                        }
-                                      }
-                                    },
-                                    "DataType": {
-                                      "type": "object",
-                                      "properties": {
-                                        "StringType": {
-                                          "type": "object",
-                                          "properties": {
-                                            "@Cset": {
-                                              "type": "string"
-                                            },
-                                            "@StrSize": {
-                                              "type": "integer"
-                                            },
-                                            "@StrPad": {
-                                              "type": "string"
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                },
-                                "focal_mechanism_id": {"$ref": "#/definitions/string_attribute"},
-                                "magnitude_id": {"$ref": "#/definitions/string_attribute"},
                                 "starttime": {
                                   "type": "object",
                                   "properties": {
@@ -437,38 +407,6 @@
                                             },
                                             "@Size": {
                                               "type": "integer"
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                },
-                                "origin_id": {
-                                  "type": "object",
-                                  "properties": {
-                                    "Dataspace": {
-                                      "type": "object",
-                                      "properties": {
-                                        "ScalarDataspace": {
-                                          "type": "null"
-                                        }
-                                      }
-                                    },
-                                    "DataType": {
-                                      "type": "object",
-                                      "properties": {
-                                        "StringType": {
-                                          "type": "object",
-                                          "properties": {
-                                            "@Cset": {
-                                              "type": "string"
-                                            },
-                                            "@StrSize": {
-                                              "type": "integer"
-                                            },
-                                            "@StrPad": {
-                                              "type": "string"
                                             }
                                           }
                                         }
