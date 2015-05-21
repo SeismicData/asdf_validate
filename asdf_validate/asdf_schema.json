@@ -51,7 +51,6 @@
         "DataType": {"$ref": "#/definitions/string_attribute_data_type"}
       }
     }
-
   },
 
   "properties": {
@@ -86,7 +85,7 @@
                                       "type": "object",
                                       "properties": {
                                         "@MaxDimSize": {
-                                          "type": "string"
+                                          "type": "integer"
                                         }
                                       }
                                     }
@@ -104,7 +103,7 @@
                                       "type": "string"
                                     },
                                     "@Size": {
-                                      "type": "string"
+                                      "type": "integer"
                                     },
                                     "@SignBitLocation": {
                                       "type": "string"
@@ -149,7 +148,7 @@
                                               "type": "string"
                                             },
                                             "@Size": {
-                                              "type": "string"
+                                              "type": "integer"
                                             },
                                             "@SignBitLocation": {
                                               "type": "string"
@@ -196,7 +195,7 @@
                                               "type": "string"
                                             },
                                             "@Size": {
-                                              "type": "string"
+                                              "type": "integer"
                                             }
                                           }
                                         }
@@ -244,7 +243,7 @@
                                       "type": "object",
                                       "properties": {
                                         "@MaxDimSize": {
-                                          "type": "string"
+                                          "type": "integer"
                                         }
                                       }
                                     }
@@ -265,7 +264,7 @@
                                       "type": "string"
                                     },
                                     "@Size": {
-                                      "type": "string"
+                                      "type": "integer"
                                     }
                                   }
                                 }
@@ -295,7 +294,7 @@
                                               "type": "string"
                                             },
                                             "@Size": {
-                                              "type": "string"
+                                              "type": "integer"
                                             },
                                             "@SignBitLocation": {
                                               "type": "string"
@@ -350,70 +349,8 @@
                                     }
                                   }
                                 },
-                                "focal_mechanism_id": {
-                                  "type": "object",
-                                  "properties": {
-                                    "Dataspace": {
-                                      "type": "object",
-                                      "properties": {
-                                        "ScalarDataspace": {
-                                          "type": "null"
-                                        }
-                                      }
-                                    },
-                                    "DataType": {
-                                      "type": "object",
-                                      "properties": {
-                                        "StringType": {
-                                          "type": "object",
-                                          "properties": {
-                                            "@Cset": {
-                                              "type": "string"
-                                            },
-                                            "@StrSize": {
-                                              "type": "integer"
-                                            },
-                                            "@StrPad": {
-                                              "type": "string"
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                },
-                                "magnitude_id": {
-                                  "type": "object",
-                                  "properties": {
-                                    "Dataspace": {
-                                      "type": "object",
-                                      "properties": {
-                                        "ScalarDataspace": {
-                                          "type": "null"
-                                        }
-                                      }
-                                    },
-                                    "DataType": {
-                                      "type": "object",
-                                      "properties": {
-                                        "StringType": {
-                                          "type": "object",
-                                          "properties": {
-                                            "@Cset": {
-                                              "type": "string"
-                                            },
-                                            "@StrSize": {
-                                              "type": "integer"
-                                            },
-                                            "@StrPad": {
-                                              "type": "string"
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                },
+                                "focal_mechanism_id": {"$ref": "#/definitions/string_attribute"},
+                                "magnitude_id": {"$ref": "#/definitions/string_attribute"},
                                 "starttime": {
                                   "type": "object",
                                   "properties": {
@@ -438,7 +375,7 @@
                                               "type": "string"
                                             },
                                             "@Size": {
-                                              "type": "string"
+                                              "type": "integer"
                                             }
                                           }
                                         }
@@ -498,7 +435,7 @@
                                       "type": "object",
                                       "properties": {
                                         "@MaxDimSize": {
-                                          "type": "string"
+                                          "type": "integer"
                                         }
                                       }
                                     }
@@ -519,7 +456,7 @@
                                       "type": "string"
                                     },
                                     "@Size": {
-                                      "type": "string"
+                                      "type": "integer"
                                     }
                                   }
                                 }
@@ -543,6 +480,7 @@
     },
     "datasets": {
       "type": "object",
+      "required": ["QuakeML"],
       "properties": {
         "QuakeML": {
           "type": "object",
@@ -560,7 +498,7 @@
                       "type": "object",
                       "properties": {
                         "@MaxDimSize": {
-                          "type": "string"
+                          "type": "integer"
                         }
                       }
                     }
@@ -581,7 +519,7 @@
                       "type": "string"
                     },
                     "@Size": {
-                      "type": "string"
+                      "type": "integer"
                     }
                   }
                 }

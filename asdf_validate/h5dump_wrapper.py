@@ -94,7 +94,7 @@ def r_transform_dict(d):
                 d[dst] = data
 
         # Force the types of certain keys if possible.
-        conversions = {"@StrSize": int}
+        conversions = {"@StrSize": int, "@MaxDimSize": int, "@Size": int}
         for key, convert in conversions.items():
             if key in d:
                 data = d[key]
