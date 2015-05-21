@@ -480,51 +480,7 @@
                             }
                           }
                         },
-                        "StationXML": {
-                          "type": "object",
-                          "properties": {
-                            "Dataspace": {
-                              "type": "object",
-                              "properties": {
-                                "SimpleDataspace": {
-                                  "type": "object",
-                                  "properties": {
-                                    "@Ndims": {
-                                      "type": "integer"
-                                    },
-                                    "Dimension": {
-                                      "type": "object",
-                                      "properties": {
-                                        "@MaxDimSize": {
-                                          "type": "string"
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            },
-                            "DataType": {
-                              "type": "object",
-                              "properties": {
-                                "IntegerType": {
-                                  "type": "object",
-                                  "properties": {
-                                    "@ByteOrder": {
-                                      "type": "string"
-                                    },
-                                    "@Sign": {
-                                      "type": "boolean"
-                                    },
-                                    "@Size": {
-                                      "type": "integer"
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
+                        "StationXML": {"$ref": "#/definitions/xml_dataset_type"}
                       }
                     }
                   }
