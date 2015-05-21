@@ -7,12 +7,73 @@
 
     "scalar_data_space": {
       "type": "object",
-      "description": "A simple scalar dataspace",
+      "description": "A scalar dataspace",
       "required": ["ScalarDataspace"],
       "properties": {
         "ScalarDataspace": {
           "type": "null"
         }
+      }
+    },
+
+    "simple_1d_dataspace": {
+      "type": "object",
+      "description": "A simple one dimenstional dataspace",
+      "required": ["SimpleDataspace"],
+      "properties": {
+        "SimpleDataspace": {
+          "type": "object",
+          "required": ["@Ndims", "Dimension"],
+          "properties": {
+            "@Ndims": {
+              "type": "integer"},
+            "Dimension": {
+              "type": "object",
+              "required": ["@MaxDimSize"],
+              "properties": {
+                "@MaxDimSize": {
+                  "type": "string",
+                  "enum": ["UNLIMITED"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "byte_array_data_type": {
+      "type": "object",
+      "description": "Byte array data type used for XML documents in ASDF.",
+      "required": ["IntegerType"],
+      "properties": {
+        "IntegerType": {
+          "type": "object",
+          "required": ["@ByteOrder", "@Sign", "@Size"],
+          "properties": {
+            "@ByteOrder": {
+              "type": "string",
+              "enum": ["LE", "BE"]},
+            "@Sign": {
+              "type": "boolean"
+            },
+            "@Size": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1
+            }
+          }
+        }
+      }
+    },
+
+    "xml_dataset_type": {
+      "type": "object",
+      "description": "The dataset type used for XML strings within ASDF.",
+      "required": ["Dataspace", "DataType"],
+      "properties": {
+        "Dataspace": {"$ref": "#/definitions/simple_1d_dataspace"},
+        "DataType": {"$ref": "#/definitions/byte_array_data_type"}
       }
     },
 
@@ -79,13 +140,13 @@
                                   "type": "object",
                                   "properties": {
                                     "@Ndims": {
-                                      "type": "string"
+                                      "type": "integer"
                                     },
                                     "Dimension": {
                                       "type": "object",
                                       "properties": {
                                         "@MaxDimSize": {
-                                          "type": "integer"
+                                          "type": "string"
                                         }
                                       }
                                     }
@@ -192,7 +253,7 @@
                                               "type": "string"
                                             },
                                             "@Sign": {
-                                              "type": "string"
+                                              "type": "boolean"
                                             },
                                             "@Size": {
                                               "type": "integer"
@@ -237,13 +298,13 @@
                                   "type": "object",
                                   "properties": {
                                     "@Ndims": {
-                                      "type": "string"
+                                      "type": "integer"
                                     },
                                     "Dimension": {
                                       "type": "object",
                                       "properties": {
                                         "@MaxDimSize": {
-                                          "type": "integer"
+                                          "type": "string"
                                         }
                                       }
                                     }
@@ -261,7 +322,7 @@
                                       "type": "string"
                                     },
                                     "@Sign": {
-                                      "type": "string"
+                                      "type": "boolean"
                                     },
                                     "@Size": {
                                       "type": "integer"
@@ -372,7 +433,7 @@
                                               "type": "string"
                                             },
                                             "@Sign": {
-                                              "type": "string"
+                                              "type": "boolean"
                                             },
                                             "@Size": {
                                               "type": "integer"
@@ -429,13 +490,13 @@
                                   "type": "object",
                                   "properties": {
                                     "@Ndims": {
-                                      "type": "string"
+                                      "type": "integer"
                                     },
                                     "Dimension": {
                                       "type": "object",
                                       "properties": {
                                         "@MaxDimSize": {
-                                          "type": "integer"
+                                          "type": "string"
                                         }
                                       }
                                     }
@@ -453,7 +514,7 @@
                                       "type": "string"
                                     },
                                     "@Sign": {
-                                      "type": "string"
+                                      "type": "boolean"
                                     },
                                     "@Size": {
                                       "type": "integer"
@@ -482,51 +543,7 @@
       "type": "object",
       "required": ["QuakeML"],
       "properties": {
-        "QuakeML": {
-          "type": "object",
-          "properties": {
-            "Dataspace": {
-              "type": "object",
-              "properties": {
-                "SimpleDataspace": {
-                  "type": "object",
-                  "properties": {
-                    "@Ndims": {
-                      "type": "string"
-                    },
-                    "Dimension": {
-                      "type": "object",
-                      "properties": {
-                        "@MaxDimSize": {
-                          "type": "integer"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            "DataType": {
-              "type": "object",
-              "properties": {
-                "IntegerType": {
-                  "type": "object",
-                  "properties": {
-                    "@ByteOrder": {
-                      "type": "string"
-                    },
-                    "@Sign": {
-                      "type": "string"
-                    },
-                    "@Size": {
-                      "type": "integer"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+        "QuakeML": {"$ref": "#/definitions/xml_dataset_type"}
       }
     },
     "attributes": {

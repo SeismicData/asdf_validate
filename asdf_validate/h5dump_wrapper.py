@@ -93,8 +93,17 @@ def r_transform_dict(d):
                 del d[src]
                 d[dst] = data
 
+        def _to_bool(value):
+            if value.lower() == "true":
+                return True
+            elif value.lower() == "false":
+                return False
+            else:
+                raise ValueError
+
         # Force the types of certain keys if possible.
-        conversions = {"@StrSize": int, "@MaxDimSize": int, "@Size": int}
+        conversions = {"@StrSize": int, "@Size": int, "@Ndims": int,
+                       "@Sign": _to_bool}
         for key, convert in conversions.items():
             if key in d:
                 data = d[key]
@@ -102,7 +111,7 @@ def r_transform_dict(d):
                 try:
                     d[key] = convert(data)
                 except ValueError:
-                    pass
+                    d[key] = data
 
         # Now check if any of the value is a list of dictionaries and each
         # dictionary has a "@Name" key. In that case it can be rewritten as a
@@ -170,5 +179,9 @@ def get_header_as_dict(filename):
 
     # Transfrom the dictionary to make it easier to read.
     header = r_transform_dict(header)
+
+    with io.open("./dummy.json", "wt") as fh:
+        import json
+        json.dump(header, fh, indent=4)
 
     return header
