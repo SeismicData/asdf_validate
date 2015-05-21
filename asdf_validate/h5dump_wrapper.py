@@ -1,35 +1,27 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Wrapper around h5dump.
+Module to get a nice dictionary/JSON representation of the data structure of
+any HDF5 file.
+
+The goal is to get the structure in a fairly simple form thus that JSONSchema
+can be used to validate it.
 
 :copyright:
     Lion Krischer (krischer@geophysik.uni-muenchen.de), 2015
 :license:
     BSD 3-Clause ("BSD New" or "BSD Simplified")
 """
-import copy
+import collections
 import io
 import os
 import subprocess
 import sys
 
-from lxml import etree
+import xmltodict
 
 
-def _etree_to_dict(t, skip_tags):
-    d = {t.tag: [_etree_to_dict(_i, skip_tags=skip_tags)
-                 for _i in t.iterchildren()]}
-    d.update(('@' + k, v) for k, v in t.attrib.iteritems()
-             if k not in skip_tags)
-    if t.text:
-        text = t.text.strip()
-        if text:
-            d['text'] = text
-    return d
-
-
-def _get_xml_etree_representation(filename):
+def _get_header_dict_representation(filename):
     if not os.path.exists(filename):
         sys.exit("File '%s' does not exist." % filename)
     args = ["h5dump", "-H", "-u", filename]
@@ -44,64 +36,128 @@ def _get_xml_etree_representation(filename):
         sys.exit("Returncode when running h5dump: %i" % p.returncode)
 
     with io.BytesIO(stdout) as fh:
-        return etree.parse(fh).getroot()
+        return xmltodict.parse(fh)
 
 
-def _list_of_dicts_to_dict(t, name_key):
+def r_remove_keys(d, keys):
     """
-    This is a bit complex and ad-hoc but it transforms the output of h5dump to
-    something thats easy to validate with jsonschema.
+    Recursively remove all keys from all dictionaries in d. Will recurse into
+    any list and dictionary like object.
     """
-    # Recurse into dictionaries.
-    if isinstance(t, dict):
-        # If it has a single item "Group", then just use that.
-        if list(t.keys()) == ["Group"]:
-            return _list_of_dicts_to_dict(t["Group"], name_key)
-        for key, value in t.items():
-            t[key] = _list_of_dicts_to_dict(value, name_key)
-        return t
-    # Nothing to do if no list or no dictionaries. We don't consider other
-    # containers.
-    elif not isinstance(t, list):
-        return t
-    # Now each item in the list must be a dictionary and must contain the
-    # name key
-    for item in t:
-        if not isinstance(item, dict) or not name_key in item:
-            return t
+    if isinstance(d, list):
+        return [r_remove_keys(_i, keys) for _i in d]
+    # Any dictionary like object.
+    elif isinstance(d, collections.Mapping):
+        # Remove all unwanted keys. This also stop recursion for the
+        # child elements.
+        for key in keys:
+            try:
+                del d[key]
+            except KeyError:
+                pass
+        for key, item in d.items():
+            d[key] = r_remove_keys(item, keys)
+        return d
+    else:
+        return d
 
-    # Convert list of dictionaries to a simple dictionary. Collect attributes
-    # along the way.
-    attributes = {}
-    ret_val = {}
-    for item in t:
-        item = copy.copy(item)
-        name = item[name_key]
-        del item[name_key]
 
-        if "Attribute" in item:
-            attributes[name] = _list_of_dicts_to_dict(item["Attribute"],
-                                                      name_key)
-            continue
+def r_transform_dict(d):
+    """
+    Recursively transforms the dictionary by hard-coded rules with the goal of
+    making it more readable and ultimately provide better error messages.
+    """
+    if isinstance(d, list):
+        return [r_transform_dict(_i) for _i in d]
+    # Any dictionary like object.
+    elif isinstance(d, collections.Mapping):
+        # All transformations happens in here.
 
-        ret_val[name] = _list_of_dicts_to_dict(item, name_key)
+        # All datatypes in ASDF are atomic. We can force this here and flatten
+        # the structure a bit.
+        if "DataType" in d:
+            dt = d["DataType"]
+            # Custom extensions might have compound types so we leave them in.
+            # If a composite type is used in an ASDF defined structure the
+            # scheme will raise an error.
+            if list(dt.keys()) == ["AtomicType"]:
+                d["DataType"] = dt["AtomicType"]
 
-    if attributes:
-        ret_val["__attributes"] = attributes
-    return ret_val
+        # Rename certain keys to make it easier to read.
+        renames = {"Attribute": "attributes",
+                   "Group": "groups",
+                   "Dataset": "datasets"}
+        for src, dst in renames.items():
+            if src in d:
+                data = d[src]
+                del d[src]
+                d[dst] = data
+
+        # Now check if any of the value is a list of dicionaries and each
+        # dictionary has a "@Name" key. In that case it can be rewritten as a
+        # dict.
+        # Alternatively the value can be a dictionary with a '@Name' key.
+        for key, value in d.items():
+            # A single item will just be written as a dictioary by xmltodict.
+            if isinstance(value, collections.Mapping) and "@Name" in value:
+                name = value["@Name"]
+                del value["@Name"]
+                d[key] = {name: value}
+            if not isinstance(value, list):
+                continue
+
+            if not all(isinstance(_i, collections.Mapping) for _i in value):
+                continue
+
+            if not all("@Name" in _i for _i in value):
+                continue
+
+            new_value = {}
+            for item in value:
+                name = item["@Name"]
+                del item["@Name"]
+                new_value[name] = item
+            d[key] = new_value
+
+        for key, value in d.items():
+            d[key] = r_transform_dict(value)
+        return d
+    else:
+        return d
 
 
 def get_header_as_dict(filename):
-    # Skip tags that are not needed for the validation.
-    skip_tags = ["OBJ-XID", "H5ParentPaths", "Parents", "H5Path"]
+    """
+    Get a nice representation of the HDF5 datastructure as a dictionary.
+    """
+    header = \
+        _get_header_dict_representation(filename)["HDF5-File"]["RootGroup"]
 
-    header = _etree_to_dict(_get_xml_etree_representation(filename),
-                            skip_tags=skip_tags)
-    # Skip the first level as its just boilerplate.
-    header = header["HDF5-File"][0]["RootGroup"]
+    # List of keys that are just noise and will be removed.
+    ignore_keys = [
+        # The internal HDF5 id.
+        "@OBJ-XID",
+        "@H5ParentPaths",
+        "@Parents",
+        "@H5Path",
+        # HDF5 internal value that really does not concern ASDF.
+        "FillValueInfo",
+        # We only get the header information from h5dump. Thus there never is
+        # any data. A group named `Data` in an HDF5 file would furthermore be
+        # stored in the "@Name" field thus this is save to do.
+        "Data",
+        # The storage layout does also not matter for the ASDF definition. Is
+        # is important for any single application but does not matter for the
+        # ASDF format itsself.
+        "StorageLayout",
+        # The actual size of arrays does also not matter.
+        "@DimSize"
+        ]
 
+    # Recursively remove all the unwanted keys.
+    header = r_remove_keys(header, ignore_keys)
 
-    # Convert from list of dicts to actual dictionaries.
-    header= _list_of_dicts_to_dict(header, name_key="@Name")
+    # Transfrom the dictionary to make it easier to read.
+    header = r_transform_dict(header)
 
     return header

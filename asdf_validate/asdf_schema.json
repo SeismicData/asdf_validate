@@ -1,8 +1,22 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "/",
+
   "type": "object",
+
   "required": ["__attributes"],
+
+  "additionalItems": true,
+
+  "definitions": {
+    "string_attribute": {
+      "description": "Type used for simple HDF5 String Attributes", 
+      "type": "array",
+      "properties": {
+
+      }
+    }
+  },
+
   "properties": {
     "Provenance": {
       "id": "Provenance",
@@ -84,14 +98,13 @@
       }
     },
     "__attributes": {
-      "id": "__attributes",
       "type": "object",
+      "additionalItems": true,
+      "required": ["file_format", "file_format_version"],
       "properties": {
         "file_format": {
-          "id": "file_format",
           "type": "array",
           "items": {
-            "id": "file_format_attribute",
             "type": "object",
             "properties": {
               "DataType": {
@@ -135,10 +148,8 @@
           }
         },
         "file_format_version": {
-          "id": "file_format_version",
           "type": "array",
           "items": {
-            "id": "file_format_version_attribute",
             "type": "object",
             "properties": {
               "DataType": {
