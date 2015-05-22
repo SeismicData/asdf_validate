@@ -126,25 +126,34 @@ def _validate_0_0_2(filename, tmpdir):
         for station, items in wf.items():
             items = items["datasets"]
 
-            if "StationXML" not in items:
-                continue
+            for name, value in items.items():
+                if name == "StationXML":
+                    continue
+                # Make sure it only contains items for the correct station.
+                this_station = ".".join(name.split(".")[:2])
+                if this_station != station:
+                    _log_error("Station group %s contains waveform %s which "
+                               "is from station %s." % (station, name,
+                                                        this_station))
 
-            # Dump StationXML to file and validate.
-            sxml_filename = os.path.join(tmpdir,
-                                         "%s.xml" % station.replace(".", "_"))
-            dump_array_to_file(filename, "/Waveforms/%s/StationXML" % station,
-                               sxml_filename)
+            if "StationXML" in items:
+                # Dump StationXML to file and validate.
+                sxml_filename = os.path.join(
+                    tmpdir, "%s.xml" % station.replace(".", "_"))
+                dump_array_to_file(
+                    filename, "/Waveforms/%s/StationXML" % station,
+                    sxml_filename)
 
-            # Open schema and file.
-            schema = etree.XMLSchema(etree.parse(_STATIONXML_SCHEMA))
-            xmldoc = etree.parse(sxml_filename)
-            valid = schema.validate(xmldoc)
+                # Open schema and file.
+                schema = etree.XMLSchema(etree.parse(_STATIONXML_SCHEMA))
+                xmldoc = etree.parse(sxml_filename)
+                valid = schema.validate(xmldoc)
 
-            if not valid:
-                msgs = ["Error validating StationXML for %s:" % station]
-                for msg in schema.error_log:
-                    msgs.append("\t%s" % msg)
-                _log_error("\n".join(msgs))
+                if not valid:
+                    msgs = ["Error validating StationXML for %s:" % station]
+                    for msg in schema.error_log:
+                        msgs.append("\t%s" % msg)
+                    _log_error("\n".join(msgs))
     else:
         # Again warn as a bit funny.
         _log_warning("No waveforms found")

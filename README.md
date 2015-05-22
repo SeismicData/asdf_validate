@@ -55,8 +55,9 @@ It performs a couple of validations:
   * Waveform data sets must have `starttime` and `sampling_rate` attributes of the correct data space and type.
   * Naming scheme of the auxiliary data is enforced.
   * XML files are stored in a consistent manner.
-5. It validates the QuakeML file against the QuakeML schema.
-6. It validates all found StationXML files against the StationXML schema.
+5. It makes sure all waveforms are in the correct station group.
+6. It validates the QuakeML file against the QuakeML schema.
+7. It validates all found StationXML files against the StationXML schema.
 
 
 ## Missing Checks
@@ -65,6 +66,5 @@ A number of checks that should be implemented in the future in no particular ord
 
 * The times in the data set names of the waveforms should correspond to the actual times of the data.
 * The various event resource identifiers on the waveform datasets are valid identifiers.
-* **Waveforms for a particular station should be in the correct group.**
 * StationXML files only contain information about the current station.
 * Provenance is not yet validated (this has to wait until SEIS-PROV is done).
