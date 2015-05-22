@@ -25,7 +25,7 @@ import jsonschema
 from lxml import etree
 
 from .h5dump_wrapper import (get_header_as_dict, dump_array_to_file,
-                             is_hdf5_file)
+                             is_hdf5_file, get_string_attribute)
 
 # Directory of the file.
 _DIR = os.path.dirname(
@@ -37,7 +37,7 @@ _STATIONXML_SCHEMA = os.path.join(_DIR, "schemas",
 
 # Dictionaries of ASDF schemas by version number.
 _ASDF_SCHEMAS = {
-    "0.0.9": os.path.join(_DIR, "schemas", "ASDF_0.0.9.json")
+    "0.0.2": os.path.join(_DIR, "schemas", "ASDF_0.0.2.json")
 }
 
 
@@ -66,9 +66,24 @@ def validate(filename):
     if not is_hdf5_file(filename):
         _log_error("Not an HDF5 file.")
 
+    file_format = get_string_attribute(filename, "file_format")
+
+    if file_format != "ASDF":
+        _log_error("'file_format' attribute in file is '%s' but "
+                   "must be 'ASDF'." % file_format)
+    file_format_version = get_string_attribute(filename, "file_format_version")
+    if file_format_version not in _ASDF_SCHEMAS.keys():
+        _log_error("Format version %s not known to validator. "
+                   "Known versions:\n\t%s" % (
+                    file_format_version, ", ".join(
+                        sorted(_ASDF_SCHEMAS.keys()))))
+
     tempfolder = tempfile.mkdtemp(prefix="tmp_asdf_validate_")
     try:
-        _validate(filename, tmpdir=tempfolder)
+        if file_format_version == "0.0.2":
+            _validate_0_0_2(filename, tmpdir=tempfolder)
+        else:
+            raise NotImplementedError
     # Always delete the directory!
     finally:
         try:
@@ -77,9 +92,9 @@ def validate(filename):
             pass
 
 
-def _validate(filename, tmpdir):
+def _validate_0_0_2(filename, tmpdir):
     # First validate against the scheme.
-    contents = _validate_scheme(filename)
+    contents = _validate_scheme(filename, scheme_version="0.0.2")
 
     # Next validate the QuakeML if any.
     if "datasets" in contents and "QuakeML" in contents["datasets"]:
@@ -135,11 +150,11 @@ def _validate(filename, tmpdir):
         _log_warning("No waveforms found")
 
 
-def _validate_scheme(filename):
+def _validate_scheme(filename, scheme_version):
     header = get_header_as_dict(filename)
 
     # Open JSON schema.
-    with io.open(os.path.join(_DIR, "asdf_schema.json"), "rt") as fh:
+    with io.open(_ASDF_SCHEMAS[scheme_version], "rt") as fh:
         schema = json.load(fh)
 
     # Validate the schema itself to avoid silly errors.

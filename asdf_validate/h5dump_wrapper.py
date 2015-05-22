@@ -15,6 +15,7 @@ can be used to validate it.
 import collections
 import io
 import os
+import re
 import subprocess
 import sys
 
@@ -54,6 +55,10 @@ def dump_array_to_file(hdf5_file, dataset_name, output_file):
 
 
 def is_hdf5_file(filename):
+    """
+    Determine if the file is an HDF5 file using h5ls. If it fails its no HDF5
+    file.
+    """
     if not os.path.exists(filename):
         sys.exit("File '%s' does not exist." % filename)
     args = ["h5ls", filename]
@@ -62,6 +67,39 @@ def is_hdf5_file(filename):
         return True
     except Exception:
         return False
+
+
+def _get_attribute(filename, path):
+    if not os.path.exists(filename):
+        sys.exit("File '%s' does not exist." % filename)
+    args = ["h5dump", "-e", "-a", path, filename]
+    p = subprocess.Popen(args, stdout=subprocess.PIPE,
+                         stderr=subprocess.PIPE)
+    stdout, stderr = p.communicate()
+    stdout = stdout.decode().strip()
+    stderr = stderr.decode().strip()
+
+    if "unable to open attribute" in stderr.lower():
+        sys.exit("Could not find attribute '%s' in file." % path)
+
+    for line in stdout.splitlines():
+        line = line.strip()
+        if not line.startswith("(0):"):
+            continue
+        line = line[len("(0):"):].strip()
+        return line
+
+    raise ValueError("Problem decoding attribute '%s' in file." % path)
+
+
+def get_string_attribute(filename, path):
+    attrib = _get_attribute(filename, path)
+    if not attrib.startswith('"') or not attrib.endswith('"'):
+        raise ValueError("Problem decoding attribute '%s' in file." % path)
+    attrib = attrib[1:-1]
+    # Zero padded terminated and potentially padded string.
+    attrib = re.sub(r"\\0+$", "", attrib)
+    return attrib
 
 
 def r_remove_keys(d, keys):
