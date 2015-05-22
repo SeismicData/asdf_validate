@@ -39,6 +39,20 @@ def _get_header_dict_representation(filename):
         return xmltodict.parse(fh)
 
 
+def dump_array_to_file(hdf5_file, dataset_name, output_file):
+    """
+    Gets a specified dataset from an HDF5 file and dumps it to output_file.
+    """
+    output_file = os.path.abspath(output_file)
+    if not os.path.exists(hdf5_file):
+        sys.exit("File '%s' does not exist." % hdf5_file)
+    if not os.path.exists(os.path.dirname(output_file)):
+        sys.exit("Folder '%s' does not exist." % os.path.dirname(output_file))
+    args = ['h5dump', '-d', dataset_name, '-b', '-o', output_file,
+            hdf5_file]
+    subprocess.check_output(args)
+
+
 def r_remove_keys(d, keys):
     """
     Recursively remove all keys from all dictionaries in d. Will recurse into
