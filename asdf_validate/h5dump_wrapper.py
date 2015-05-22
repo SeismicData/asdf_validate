@@ -12,6 +12,9 @@ can be used to validate it.
 :license:
     BSD 3-Clause ("BSD New" or "BSD Simplified")
 """
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
+
 import collections
 import io
 import os
@@ -251,7 +254,7 @@ def get_header_as_dict(filename):
     # Transfrom the dictionary to make it easier to read.
     header = r_transform_dict(header)
 
-    with io.open("./dummy.json", "wt") as fh:
+    with open("./dummy.json", "w") as fh:
         import json
         json.dump(header, fh, indent=4)
 

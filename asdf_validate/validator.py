@@ -175,6 +175,8 @@ def main():
 
     validate(filename)
 
+    print("Valid ASDF File!")
+
 
 if __name__ == "__main__":
     main()
