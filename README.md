@@ -45,9 +45,15 @@ Any other output mean your file is not valid. The error messages should hopefull
 
 It performs a couple of validations:
 
-1. Checks the file exists.
-2. Checks its an HDF5 file.
-3. Checks if the `file_format` and `file_format_version` attributes are set and correspond to the expected values.
-4. It transforms the structure of the file to JSON respresentation.
+1. Checks if the file exists.
+2. Checks if its an HDF5 file.
+3. Checks if the `file_format` and `file_format_version` attributes are set and correspond to expected values.
+4. It transforms the structure of the file to JSON respresentation which is then checked against a [JSON Schema](http://json-schema.org/). This assures a number of things:
+  * The general layout and naming scheme is enforced.
+  * Data spaces and data types of attributes are enforced.
+  * Waveform data can only be 32/64 bit, little/big endian, IEEE floats or two's complement integers.
+  * Waveform data sets must have `starttime` and `sampling_rate` attributes of the correct data space and type.
+  * Naming scheme of the auxiliary data is enforced.
+  * XML files are stored in a consistent manner.
 5. It validates the QuakeML file against the QuakeML schema.
 6. It validates all found StationXML files against the StationXML schema.
