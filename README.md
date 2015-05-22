@@ -48,7 +48,7 @@ It performs a couple of validations:
 1. Checks if the file exists.
 2. Checks if its an HDF5 file.
 3. Checks if the `file_format` and `file_format_version` attributes are set and correspond to expected values.
-4. It transforms the structure of the file to JSON respresentation which is then checked against a [JSON Schema](http://json-schema.org/). This assures a number of things:
+4. It transforms the structure of the file to a JSON respresentation which is then checked against a [JSON Schema](http://json-schema.org/). This assures a number of things:
   * The general layout and naming scheme is enforced.
   * Data spaces and data types of attributes are enforced.
   * Waveform data can only be 32/64 bit, little/big endian, IEEE floats or two's complement integers.
@@ -57,3 +57,14 @@ It performs a couple of validations:
   * XML files are stored in a consistent manner.
 5. It validates the QuakeML file against the QuakeML schema.
 6. It validates all found StationXML files against the StationXML schema.
+
+
+## Missing Checks
+
+A number of checks that should be implemented in the future in no particular order:
+
+* The times in the data set names of the waveforms should correspond to the actual times of the data.
+* The various event resource identifiers on the waveform datasets are valid identifiers.
+* **Waveforms for a particular station should be in the correct group.**
+* StationXML files only contain information about the current station.
+* Provenance is not yet validated (this has to wait until SEIS-PROV is done).
