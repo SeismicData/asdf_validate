@@ -21,11 +21,11 @@ import shutil
 import sys
 import tempfile
 
-import h5py
 import jsonschema
 from lxml import etree
 
-from .h5dump_wrapper import get_header_as_dict, dump_array_to_file
+from .h5dump_wrapper import (get_header_as_dict, dump_array_to_file,
+                             is_hdf5_file)
 
 # Directory of the file.
 _DIR = os.path.dirname(
@@ -34,6 +34,11 @@ _DIR = os.path.dirname(
 _QUAKEML_SCHEMA = os.path.join(_DIR, "schemas", "QuakeML-1.2.rng")
 _STATIONXML_SCHEMA = os.path.join(_DIR, "schemas",
                                   "fdsn-station+availability-1.0.xsd")
+
+# Dictionaries of ASDF schemas by version number.
+_ASDF_SCHEMAS = {
+    "0.0.9": os.path.join(_DIR, "schemas", "ASDF_0.0.9.json")
+}
 
 
 def _log_error(message):
@@ -58,15 +63,12 @@ def validate(filename):
     if not os.path.isfile(filename):
         _log_error("Path '%s' is not a file." % filename)
 
-    try:
-        f = h5py.File(filename, "r")
-    except OSError:
+    if not is_hdf5_file(filename):
         _log_error("Not an HDF5 file.")
 
     tempfolder = tempfile.mkdtemp(prefix="tmp_asdf_validate_")
     try:
-        with f:
-            _validate(f, filename, tmpdir=tempfolder)
+        _validate(filename, tmpdir=tempfolder)
     # Always delete the directory!
     finally:
         try:
@@ -75,7 +77,7 @@ def validate(filename):
             pass
 
 
-def _validate(f, filename, tmpdir):
+def _validate(filename, tmpdir):
     # First validate against the scheme.
     contents = _validate_scheme(filename)
 

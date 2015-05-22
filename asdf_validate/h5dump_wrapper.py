@@ -53,6 +53,17 @@ def dump_array_to_file(hdf5_file, dataset_name, output_file):
     subprocess.check_output(args)
 
 
+def is_hdf5_file(filename):
+    if not os.path.exists(filename):
+        sys.exit("File '%s' does not exist." % filename)
+    args = ["h5ls", filename]
+    try:
+        subprocess.check_output(args, stderr=subprocess.PIPE)
+        return True
+    except Exception:
+        return False
+
+
 def r_remove_keys(d, keys):
     """
     Recursively remove all keys from all dictionaries in d. Will recurse into
