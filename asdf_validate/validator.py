@@ -33,7 +33,7 @@ _DIR = os.path.dirname(
 
 _QUAKEML_SCHEMA = os.path.join(_DIR, "schemas", "QuakeML-1.2.rng")
 _STATIONXML_SCHEMA = os.path.join(_DIR, "schemas",
-                                  "fdsn-station+availability-1.0.xsd")
+                                  "fdsn-station-1.0.xsd")
 
 # Dictionaries of ASDF schemas by version number.
 _ASDF_SCHEMAS = {
