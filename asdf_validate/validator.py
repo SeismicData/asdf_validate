@@ -32,6 +32,8 @@ _DIR = os.path.dirname(
     os.path.abspath(inspect.getfile(inspect.currentframe())))
 
 _QUAKEML_SCHEMA = os.path.join(_DIR, "schemas", "QuakeML-1.2.rng")
+_STATIONXML_SCHEMA = os.path.join(_DIR, "schemas",
+                                  "fdsn-station+availability-1.0.xsd")
 
 
 def _log_error(message):
@@ -82,7 +84,7 @@ def _validate(f, filename, tmpdir):
         qml_filename = os.path.join(tmpdir, "quake.xml")
         dump_array_to_file(filename, "/QuakeML", qml_filename)
 
-        # Open schema and file..
+        # Open schema and file.
         relaxng = etree.RelaxNG(etree.parse(_QUAKEML_SCHEMA))
         xmldoc = etree.parse(qml_filename)
         valid = relaxng.validate(xmldoc)
@@ -94,6 +96,41 @@ def _validate(f, filename, tmpdir):
             _log_error("\n".join(msgs))
     else:
         _log_warning("No QuakeML found in the file.")
+
+    # In theory legal but a bit suspicious so warn people.
+    if "groups" not in contents:
+        _log_warning("Neither waveforms, nor provenance information, nor "
+                     "auxiliary data found.")
+        return
+
+    # Loop over all waveforms.
+    if "Waveforms" in contents["groups"]:
+        wf = contents["groups"]["Waveforms"]["groups"]
+        for station, items in wf.items():
+            items = items["datasets"]
+
+            if "StationXML" not in items:
+                continue
+
+            # Dump StationXML to file and validate.
+            sxml_filename = os.path.join(tmpdir,
+                                         "%s.xml" % station.replace(".", "_"))
+            dump_array_to_file(filename, "/Waveforms/%s/StationXML" % station,
+                               sxml_filename)
+
+            # Open schema and file.
+            schema = etree.XMLSchema(etree.parse(_STATIONXML_SCHEMA))
+            xmldoc = etree.parse(sxml_filename)
+            valid = schema.validate(xmldoc)
+
+            if not valid:
+                msgs = ["Error validating StationXML for %s:" % station]
+                for msg in schema.error_log:
+                    msgs.append("\t%s" % msg)
+                _log_error("\n".join(msgs))
+    else:
+        # Again warn as a bit funny.
+        _log_warning("No waveforms found")
 
 
 def _validate_scheme(filename):
