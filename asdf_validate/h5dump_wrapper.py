@@ -102,8 +102,16 @@ def r_transform_dict(d):
                 raise ValueError
 
         # Force the types of certain keys if possible.
-        conversions = {"@StrSize": int, "@Size": int, "@Ndims": int,
-                       "@Sign": _to_bool}
+        conversions = {
+            "@StrSize": int,
+            "@Size": int,
+            "@Ndims": int,
+            "@Sign": _to_bool,
+            "@SignBitLocation": int,
+            "@ExponentBits": int,
+            "@ExponentLocation": int,
+            "@MantissaBits": int,
+            "@MantissaLocation": int}
         for key, convert in conversions.items():
             if key in d:
                 data = d[key]

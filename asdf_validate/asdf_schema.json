@@ -18,7 +18,7 @@
 
     "simple_1d_dataspace": {
       "type": "object",
-      "description": "A simple one dimenstional dataspace",
+      "description": "A simple one dimensional dataspace.",
       "required": ["SimpleDataspace"],
       "properties": {
         "SimpleDataspace": {
@@ -111,7 +111,79 @@
         "Dataspace": {"$ref": "#/definitions/scalar_data_space"},
         "DataType": {"$ref": "#/definitions/string_attribute_data_type"}
       }
+    },
+
+    "64bit_unsigned_int_type": {
+      "type": "object",
+      "properties": {
+        "IntegerType": {
+          "type": "object",
+          "required": ["@ByteOrder", "@Sign", "@Size"],
+          "properties": {
+            "@ByteOrder": {
+              "type": "string",
+              "enum": ["LE", "BE"]
+            },
+            "@Sign": {
+              "type": "boolean",
+              "enum": [true]
+            },
+            "@Size": {
+              "type": "integer",
+              "minimum": 8,
+              "maximum": 8
+            }
+          }
+        }
+      }
+    },
+
+    "64bit_float_data_type": {
+      "type": "object",
+      "properties": {
+        "FloatType": {
+          "type": "object",
+          "required": ["@ByteOrder", "@Size", "@SignBitLocation", "@ExponentBits", "@ExponentLocation", "@MantissaBits", "@MantissaLocation"],
+          "properties": {
+            "@ByteOrder": {
+              "type": "string",
+              "enum": ["LE", "BE"]
+            },
+            "@Size": {
+              "type": "integer",
+              "minimum": 8,
+              "maximum": 8
+            },
+            "@SignBitLocation": {
+              "type": "integer",
+              "minimum": 63,
+              "maximum": 63
+            },
+            "@ExponentBits": {
+              "type": "integer",
+              "minimum": 11,
+              "maximum": 11
+            },
+            "@ExponentLocation": {
+              "type": "integer",
+              "minimum": 52,
+              "maximum": 52
+            },
+            "@MantissaBits": {
+              "type": "integer",
+              "minimum": 52,
+              "maximum": 52
+            },
+            "@MantissaLocation": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 0
+            }
+          }
+        }
+      }
     }
+
   },
 
   "required": ["attributes"],
@@ -169,19 +241,19 @@
                                       "type": "integer"
                                     },
                                     "@SignBitLocation": {
-                                      "type": "string"
+                                      "type": "integer"
                                     },
                                     "@ExponentBits": {
-                                      "type": "string"
+                                      "type": "integer"
                                     },
                                     "@ExponentLocation": {
-                                      "type": "string"
+                                      "type": "integer"
                                     },
                                     "@MantissaBits": {
-                                      "type": "string"
+                                      "type": "integer"
                                     },
                                     "@MantissaLocation": {
-                                      "type": "string"
+                                      "type": "integer"
                                     }
                                   }
                                 }
@@ -214,19 +286,19 @@
                                               "type": "integer"
                                             },
                                             "@SignBitLocation": {
-                                              "type": "string"
+                                              "type": "integer"
                                             },
                                             "@ExponentBits": {
-                                              "type": "string"
+                                              "type": "integer"
                                             },
                                             "@ExponentLocation": {
-                                              "type": "string"
+                                              "type": "integer"
                                             },
                                             "@MantissaBits": {
-                                              "type": "string"
+                                              "type": "integer"
                                             },
                                             "@MantissaLocation": {
-                                              "type": "string"
+                                              "type": "integer"
                                             }
                                           }
                                         }
@@ -346,78 +418,18 @@
                                 "origin_id": {"$ref": "#/definitions/string_attribute"},
                                 "sampling_rate": {
                                   "type": "object",
+                                  "description": "Double precision sampling rate",
                                   "properties": {
-                                    "Dataspace": {
-                                      "type": "object",
-                                      "properties": {
-                                        "ScalarDataspace": {
-                                          "type": "null"
-                                        }
-                                      }
-                                    },
-                                    "DataType": {
-                                      "type": "object",
-                                      "properties": {
-                                        "FloatType": {
-                                          "type": "object",
-                                          "properties": {
-                                            "@ByteOrder": {
-                                              "type": "string"
-                                            },
-                                            "@Size": {
-                                              "type": "integer"
-                                            },
-                                            "@SignBitLocation": {
-                                              "type": "string"
-                                            },
-                                            "@ExponentBits": {
-                                              "type": "string"
-                                            },
-                                            "@ExponentLocation": {
-                                              "type": "string"
-                                            },
-                                            "@MantissaBits": {
-                                              "type": "string"
-                                            },
-                                            "@MantissaLocation": {
-                                              "type": "string"
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
+                                    "Dataspace": {"$ref": "#/definitions/scalar_data_space"},
+                                    "DataType": {"$ref": "#/definitions/64bit_float_data_type"}
                                   }
                                 },
                                 "starttime": {
                                   "type": "object",
+                                  "description": "Epoch time in nanoseconds as a double precision integer.",
                                   "properties": {
-                                    "Dataspace": {
-                                      "type": "object",
-                                      "properties": {
-                                        "ScalarDataspace": {
-                                          "type": "null"
-                                        }
-                                      }
-                                    },
-                                    "DataType": {
-                                      "type": "object",
-                                      "properties": {
-                                        "IntegerType": {
-                                          "type": "object",
-                                          "properties": {
-                                            "@ByteOrder": {
-                                              "type": "string"
-                                            },
-                                            "@Sign": {
-                                              "type": "boolean"
-                                            },
-                                            "@Size": {
-                                              "type": "integer"
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
+                                    "Dataspace": {"$ref": "#/definitions/scalar_data_space"},
+                                    "DataType": {"$ref": "#/definitions/64bit_unsigned_int_type"}
                                   }
                                 }
                               }
