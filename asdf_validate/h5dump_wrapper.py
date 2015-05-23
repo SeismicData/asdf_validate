@@ -105,6 +105,11 @@ def get_string_attribute(filename, path):
     return attrib
 
 
+def get_float_attribute(filename, path):
+    attrib = _get_attribute(filename, path)
+    return float(attrib)
+
+
 def r_remove_keys(d, keys):
     """
     Recursively remove all keys from all dictionaries in d. Will recurse into
@@ -171,6 +176,7 @@ def r_transform_dict(d):
         conversions = {
             "@StrSize": int,
             "@Size": int,
+            "@DimSize": int,
             "@Ndims": int,
             "@Sign": _to_bool,
             "@SignBitLocation": int,
@@ -243,9 +249,7 @@ def get_header_as_dict(filename):
         # The storage layout does also not matter for the ASDF definition. Is
         # is important for any single application but does not matter for the
         # ASDF format itsself.
-        "StorageLayout",
-        # The actual size of arrays does also not matter.
-        "@DimSize"
+        "StorageLayout"
         ]
 
     # Recursively remove all the unwanted keys.

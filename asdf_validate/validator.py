@@ -13,6 +13,7 @@ from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
 
 import argparse
+import datetime
 import inspect
 import io
 import json
@@ -25,7 +26,8 @@ import jsonschema
 from lxml import etree
 
 from .h5dump_wrapper import (get_header_as_dict, dump_array_to_file,
-                             is_hdf5_file, get_string_attribute)
+                             is_hdf5_file, get_string_attribute,
+                             get_float_attribute)
 
 # Directory of the file.
 _DIR = os.path.dirname(
@@ -126,15 +128,58 @@ def _validate_0_0_2(filename, tmpdir):
         for station, items in wf.items():
             items = items["datasets"]
 
+            # Check various properties of the waveforms.
             for name, value in items.items():
                 if name == "StationXML":
                     continue
+
                 # Make sure it only contains items for the correct station.
                 this_station = ".".join(name.split(".")[:2])
                 if this_station != station:
                     _log_error("Station group %s contains waveform %s which "
                                "is from station %s." % (station, name,
                                                         this_station))
+
+                # Make sure the times on the name are approximately correct.
+                starttime, endtime = name.split("__")[1:3]
+                # Set as UTC and convert to seconds since epoch.
+                starttime = datetime.datetime.strptime(
+                    starttime + "+0000", "%Y-%m-%dT%H:%M:%S%z").timestamp()
+                endtime = datetime.datetime.strptime(
+                    endtime + "+0000", "%Y-%m-%dT%H:%M:%S%z").timestamp()
+
+                # Get the actual length of the data.
+                npts = value["Dataspace"]["SimpleDataspace"][
+                    "Dimension"]["@DimSize"]
+
+                # In the file its in nanoseconds.
+                starttime_in_file = get_float_attribute(
+                    filename,
+                    "/Waveforms/%s/%s/starttime" % (station, name)) / 1E9
+                sampling_rate = get_float_attribute(
+                    filename,
+                    "/Waveforms/%s/%s/sampling_rate" % (station, name))
+                endtime_in_file = starttime_in_file + \
+                    (npts - 1) / sampling_rate
+
+                # Make sure they are equal to within one second.
+                tolerance = 1.0
+                if abs(starttime - starttime_in_file) > tolerance:
+                    # Convert back to UTC for a pretty output.
+                    starttime_in_file = \
+                        datetime.datetime.utcfromtimestamp(starttime_in_file)
+                    sys.exit("Start time in the name of the waveform data set "
+                             "'%s' differs from the start time set as an "
+                             "attribute [%s]. Both have to agree within a "
+                             "certain tolerance" % (name, starttime_in_file))
+                if abs(endtime - endtime_in_file) > tolerance:
+                    # Convert back to UTC for a pretty output.
+                    endtime_in_file = \
+                        datetime.datetime.utcfromtimestamp(endtime_in_file)
+                    sys.exit("end time in the name of the waveform data set "
+                             "'%s' differs from the end time set as an "
+                             "attribute [%s]. Both have to agree within a "
+                             "certain tolerance" % (name, endtime_in_file))
 
             if "StationXML" in items:
                 # Dump StationXML to file and validate.
