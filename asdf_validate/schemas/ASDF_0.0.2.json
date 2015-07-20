@@ -282,9 +282,9 @@
                     "datasets": {
                       "type": "object",
                       "additionalProperties": false,
-                      "description": "Tag tag of that particular piece of auxiliary data with the given type. Must be snake case.",
+                      "description": "Tag tag of that particular piece of auxiliary data with the given type.",
                       "patternProperties": {
-                        "^[a-z0-9][a-z0-9_]*[a-z0-9]$": {
+                        "^[a-zA-Z0-9][a-zA-Z0-9_]*[a-zA-Z0-9]$": {
                           "type": "object",
                           "description": "This is really free-style and dependent on the application"
                         }
