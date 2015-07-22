@@ -297,7 +297,16 @@
                       "patternProperties": {
                         "^[a-zA-Z0-9][a-zA-Z0-9_]*[a-zA-Z0-9]$": {
                           "type": "object",
-                          "description": "This is really free-style and dependent on the application"
+                          "description": "This is really free-style and dependent on the application",
+                          "properties": {
+                            "attributes": {
+                              "type": "object",
+                              "additionalProperties": true,
+                              "properties": {
+                                "provenance_id": {"$ref": "#/definitions/provenance_id_attribute"}
+                              }
+                            }
+                          }
                         }
                       }
                     }
