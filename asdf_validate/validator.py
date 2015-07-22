@@ -54,7 +54,7 @@ def _log_warning(message):
     """
     Print the message to stdout
     """
-    print(message)
+    print("WARNING:", message)
 
 
 def validate(filename):
@@ -123,7 +123,8 @@ def _validate_0_0_2(filename, tmpdir):
         return
 
     # Loop over all waveforms.
-    if "Waveforms" in contents["groups"]:
+    if "Waveforms" in contents["groups"] and \
+            "groups" in contents["groups"]["Waveforms"]:
         wf = contents["groups"]["Waveforms"]["groups"]
         for station, items in wf.items():
             items = items["datasets"]
@@ -201,7 +202,7 @@ def _validate_0_0_2(filename, tmpdir):
                     _log_error("\n".join(msgs))
     else:
         # Again warn as a bit funny.
-        _log_warning("No waveforms found")
+        _log_warning("No waveforms found in the file.")
 
 
 def _validate_scheme(filename, scheme_version):
