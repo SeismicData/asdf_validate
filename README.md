@@ -18,6 +18,7 @@ Additional required Python modules are:
 * `jsonschema>=2.4.0`
 * `xmltodict`
 * `pytest`
+* `seis_prov_validate` http://seismicdata.github.io/SEIS-PROV/validation.html#official-validator
 
 
 Cloning the repository is currently necessary:
