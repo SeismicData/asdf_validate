@@ -140,6 +140,28 @@ def _validate_0_0_2(filename, tmpdir):
             sys.exit("Validation of provenance document '%s' failed due "
                      "to:\n\t%s" % (doc, "\n\t".join(result.errors)))
 
+    if "AuxiliaryData" in contents["groups"] and \
+            "groups" in contents["groups"]["AuxiliaryData"]:
+        aux_group = contents["groups"]["AuxiliaryData"]["groups"]
+        data_types = list(aux_group.keys())
+        for t in data_types:
+            if "datasets" not in aux_group[t]:
+                continue
+            ds = aux_group[t]["datasets"]
+            for item in ds.keys():
+                if "attributes" not in ds[item]:
+                    continue
+                if "provenance_id" not in ds[item]["attributes"]:
+                    continue
+                prov_id = get_string_attribute(
+                    filename, "/AuxiliaryData/" + t + "/" +
+                    item + "/provenance_id")
+                if PROVENANCE_ID_PATTERN.match(prov_id) is None:
+                    sys.exit(
+                        "AuxiliaryData '%s/%s' has a provenance id of '%s' "
+                        "which does not match the regular expression '%s'" % (
+                            t, item, prov_id, PROVENANCE_ID_PATTERN.pattern))
+
     # Loop over all waveforms.
     if "Waveforms" in contents["groups"] and \
             "groups" in contents["groups"]["Waveforms"]:
@@ -202,7 +224,7 @@ def _validate_0_0_2(filename, tmpdir):
 
                 if "provenance_id" in value["attributes"]:
                     prov_id = get_string_attribute(
-                        filename, "/Waveforms/" + station + "/" + name  +
+                        filename, "/Waveforms/" + station + "/" + name +
                         "/provenance_id")
                     if PROVENANCE_ID_PATTERN.match(prov_id) is None:
                         sys.exit(
