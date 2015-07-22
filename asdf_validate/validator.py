@@ -18,6 +18,7 @@ import inspect
 import io
 import json
 import os
+import re
 import shutil
 import sys
 import tempfile
@@ -41,6 +42,9 @@ _STATIONXML_SCHEMA = os.path.join(_DIR, "schemas",
 _ASDF_SCHEMAS = {
     "0.0.2": os.path.join(_DIR, "schemas", "ASDF_0.0.2.json")
 }
+
+PROVENANCE_ID_PATTERN = re.compile(
+    r"^{[a-z]+://[a-z./_0-9A-Z?#&$-.+!*'\(\),]+}\w+$")
 
 
 def _log_error(message):
@@ -181,6 +185,16 @@ def _validate_0_0_2(filename, tmpdir):
                              "'%s' differs from the end time set as an "
                              "attribute [%s]. Both have to agree within a "
                              "certain tolerance" % (name, endtime_in_file))
+
+                if "provenance_id" in value["attributes"]:
+                    prov_id = get_string_attribute(
+                        filename, "/Waveforms/" + station + "/" + name  +
+                        "/provenance_id")
+                    if PROVENANCE_ID_PATTERN.match(prov_id) is None:
+                        sys.exit(
+                            "Waveform '%s' has a provenance id of '%s' which "
+                            "does not match the regular expression '%s'" % (
+                                name, prov_id, PROVENANCE_ID_PATTERN.pattern))
 
             if "StationXML" in items:
                 # Dump StationXML to file and validate.

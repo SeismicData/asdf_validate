@@ -107,6 +107,17 @@
     "string_attribute": {
       "type": "object",
       "description": "ASDF string attribute including data space and type.",
+      "required": ["Dataspace", "DataType"],
+      "properties": {
+        "Dataspace": {"$ref": "#/definitions/scalar_data_space"},
+        "DataType": {"$ref": "#/definitions/string_attribute_data_type"}
+      }
+    },
+
+    "provenance_id_attribute": {
+      "type": "object",
+      "description": "ASDF string attribute including data space and type.",
+      "required": ["Dataspace", "DataType"],
       "properties": {
         "Dataspace": {"$ref": "#/definitions/scalar_data_space"},
         "DataType": {"$ref": "#/definitions/string_attribute_data_type"}
@@ -326,11 +337,13 @@
                             "attributes": {
                               "type": "object",
                               "required": ["starttime", "sampling_rate"],
+                              "additionalProperties": false,
                               "properties": {
                                 "event_id": {"$ref": "#/definitions/string_attribute"},
                                 "focal_mechanism_id": {"$ref": "#/definitions/string_attribute"},
                                 "magnitude_id": {"$ref": "#/definitions/string_attribute"},
                                 "origin_id": {"$ref": "#/definitions/string_attribute"},
+                                "provenance_id": {"$ref": "#/definitions/provenance_id_attribute"},
                                 "sampling_rate": {
                                   "type": "object",
                                   "description": "Double precision sampling rate",
