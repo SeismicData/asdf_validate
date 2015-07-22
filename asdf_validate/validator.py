@@ -25,6 +25,7 @@ import tempfile
 
 import jsonschema
 from lxml import etree
+import seis_prov_validate
 
 from .h5dump_wrapper import (get_header_as_dict, dump_array_to_file,
                              is_hdf5_file, get_string_attribute,
@@ -125,6 +126,19 @@ def _validate_0_0_2(filename, tmpdir):
         _log_warning("Neither waveforms, nor provenance information, nor "
                      "auxiliary data found.")
         return
+
+    # Loop over all provenance documents
+    if "Provenance" in contents["groups"]:
+        prov_docs = list(contents["groups"]["Provenance"]["datasets"].keys())
+        prov_filename = os.path.join(tmpdir, "prov.xml")
+        for doc in prov_docs:
+            dump_array_to_file(filename, "/Provenance/" + doc, prov_filename)
+
+            result = seis_prov_validate.validate(prov_filename)
+            if result.is_valid:
+                continue
+            sys.exit("Validation of provenance document '%s' failed due "
+                     "to:\n\t%s" % (doc, "\n\t".join(result.errors)))
 
     # Loop over all waveforms.
     if "Waveforms" in contents["groups"] and \
