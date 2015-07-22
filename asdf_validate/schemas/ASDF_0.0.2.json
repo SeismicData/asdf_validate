@@ -364,7 +364,17 @@
         },
         "Provenance": {
           "type": "object",
-          "properties": {}
+          "additionalProperties": false,
+          "properties": {
+            "datasets": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Provenance files. Each file must be an SEIS-PROV XML document.",
+              "patternProperties": {
+                "^[0-9a-z][0-9a-z_]*[0-9a-z]$": {"$ref": "#/definitions/xml_dataset_type"}
+              }
+            }
+          }
         }
       }
     },
