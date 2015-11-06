@@ -14,6 +14,8 @@ from __future__ import (absolute_import, division, print_function,
 
 import argparse
 import datetime
+import time
+from calendar import timegm
 import inspect
 import io
 import json
@@ -184,10 +186,12 @@ def _validate_0_0_2(filename, tmpdir):
                 # Make sure the times on the name are approximately correct.
                 starttime, endtime = name.split("__")[1:3]
                 # Set as UTC and convert to seconds since epoch.
-                starttime = datetime.datetime.strptime(
-                    starttime + "+0000", "%Y-%m-%dT%H:%M:%S%z").timestamp()
-                endtime = datetime.datetime.strptime(
-                    endtime + "+0000", "%Y-%m-%dT%H:%M:%S%z").timestamp()
+                starttime = starttime + 'Z'
+                endtime = endtime + 'Z'
+                starttime = timegm(time.strptime(
+                    starttime.replace('Z','GMT'),"%Y-%m-%dT%H:%M:%S%Z"))
+                endtime = timegm(time.strptime(
+                    endtime.replace('Z','GMT'),"%Y-%m-%dT%H:%M:%S%Z"))
 
                 # Get the actual length of the data.
                 npts = value["Dataspace"]["SimpleDataspace"][
