@@ -130,7 +130,8 @@ def _validate_0_0_2(filename, tmpdir):
         return
 
     # Loop over all provenance documents
-    if "Provenance" in contents["groups"]:
+    if "Provenance" in contents["groups"] and \
+            "datasets" in contents["groups"]["Provenance"]:
         prov_docs = list(contents["groups"]["Provenance"]["datasets"].keys())
         prov_filename = os.path.join(tmpdir, "prov.xml")
         for doc in prov_docs:
