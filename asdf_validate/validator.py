@@ -43,7 +43,8 @@ _STATIONXML_SCHEMA = os.path.join(_DIR, "schemas",
 
 # Dictionaries of ASDF schemas by version number.
 _ASDF_SCHEMAS = {
-    "0.0.2": os.path.join(_DIR, "schemas", "ASDF_0.0.2.json")
+    "0.0.2": os.path.join(_DIR, "schemas", "ASDF_0.0.2.json"),
+    "1.0.0": os.path.join(_DIR, "schemas", "ASDF_1.0.0.json")
 }
 
 PROVENANCE_ID_PATTERN = re.compile(
@@ -90,7 +91,9 @@ def validate(filename):
     tempfolder = tempfile.mkdtemp(prefix="tmp_asdf_validate_")
     try:
         if file_format_version == "0.0.2":
-            _validate_0_0_2(filename, tmpdir=tempfolder)
+            _validate(filename, tmpdir=tempfolder, schema_version="0.0.2")
+        elif file_format_version == "1.0.0":
+            _validate(filename, tmpdir=tempfolder, schema_version="1.0.0.")
         else:
             raise NotImplementedError
     # Always delete the directory!
@@ -101,9 +104,9 @@ def validate(filename):
             pass
 
 
-def _validate_0_0_2(filename, tmpdir):
+def _validate(filename, tmpdir, schema_version):
     # First validate against the scheme.
-    contents = _validate_scheme(filename, scheme_version="0.0.2")
+    contents = _validate_scheme(filename, scheme_version="1.0.0")
 
     # Next validate the QuakeML if any.
     if "datasets" in contents and "QuakeML" in contents["datasets"]:
