@@ -177,6 +177,7 @@ def r_transform_dict(d):
             "@StrSize": int,
             "@Size": int,
             "@DimSize": int,
+            "@MaxDimSize": int,
             "@Ndims": int,
             "@Sign": _to_bool,
             "@SignBitLocation": int,

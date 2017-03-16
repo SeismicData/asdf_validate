@@ -32,8 +32,15 @@
               "required": ["@MaxDimSize"],
               "properties": {
                 "@MaxDimSize": {
-                  "type": "string",
-                  "enum": ["UNLIMITED"]
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "enum": ["UNLIMITED"]
+                    },
+                    {
+                      "type": "number"
+                    }
+                  ]
                 }
               }
             }
