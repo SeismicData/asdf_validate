@@ -103,8 +103,8 @@
             },
             "@StrPad": {
               "type": "string",
-              "description": "Force zero padding.",
-              "enum": ["H5T_STR_NULLPAD"]
+              "description": "Force zero padding or null termination.",
+              "enum": ["H5T_STR_NULLPAD", "H5T_STR_NULLTERM"]
             }
           }
         }
