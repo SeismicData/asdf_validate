@@ -193,9 +193,9 @@ def _validate(filename, tmpdir, schema_version):
                 starttime = starttime + 'Z'
                 endtime = endtime + 'Z'
                 starttime = timegm(time.strptime(
-                    starttime.replace('Z','GMT'),"%Y-%m-%dT%H:%M:%S%Z"))
+                    starttime.replace('Z', 'GMT'), "%Y-%m-%dT%H:%M:%S%Z"))
                 endtime = timegm(time.strptime(
-                    endtime.replace('Z','GMT'),"%Y-%m-%dT%H:%M:%S%Z"))
+                    endtime.replace('Z', 'GMT'), "%Y-%m-%dT%H:%M:%S%Z"))
 
                 # Get the actual length of the data.
                 npts = value["Dataspace"]["SimpleDataspace"][
@@ -263,8 +263,25 @@ def _validate(filename, tmpdir, schema_version):
         _log_warning("No waveforms found in the file.")
 
 
+def filter_netcdf_things(node):
+    """
+    Filter out all netcdf related things.
+    """
+    keep = {}
+    for key, value in node.items():
+        if key == "_NCProperties" or key.startswith("ncdim"):
+            continue
+        if isinstance(value, dict):
+            value = filter_netcdf_things(value)
+        keep[key] = value
+    return keep
+
+
 def _validate_scheme(filename, scheme_version):
     header = get_header_as_dict(filename)
+
+    # Get rid of all netcdf things.
+    header = filter_netcdf_things(header)
 
     # Open JSON schema.
     with io.open(_ASDF_SCHEMAS[scheme_version], "rt") as fh:
