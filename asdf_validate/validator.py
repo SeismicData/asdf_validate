@@ -195,6 +195,9 @@ def _validate(filename, tmpdir, schema_version):
 
                 # Make sure the times on the name are approximately correct.
                 starttime, endtime = name.split("__")[1:3]
+                # Get rid of eventual nanoseconds starting with version 1.0.2.
+                starttime = re.sub("\.\d{9}", "", starttime)
+                endtime = re.sub("\.\d{9}", "", endtime)
                 # Set as UTC and convert to seconds since epoch.
                 starttime = starttime + 'Z'
                 endtime = endtime + 'Z'
