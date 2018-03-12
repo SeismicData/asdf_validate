@@ -45,7 +45,8 @@ _STATIONXML_SCHEMA = os.path.join(_DIR, "schemas",
 _ASDF_SCHEMAS = {
     "0.0.2": os.path.join(_DIR, "schemas", "ASDF_0.0.2.json"),
     "1.0.0": os.path.join(_DIR, "schemas", "ASDF_1.0.0.json"),
-    "1.0.1": os.path.join(_DIR, "schemas", "ASDF_1.0.1.json")
+    "1.0.1": os.path.join(_DIR, "schemas", "ASDF_1.0.1.json"),
+    "1.0.2": os.path.join(_DIR, "schemas", "ASDF_1.0.2.json")
 }
 
 PROVENANCE_ID_PATTERN = re.compile(
@@ -97,6 +98,8 @@ def validate(filename):
             _validate(filename, tmpdir=tempfolder, schema_version="1.0.0")
         elif file_format_version == "1.0.1":
             _validate(filename, tmpdir=tempfolder, schema_version="1.0.1")
+        elif file_format_version == "1.0.2":
+            _validate(filename, tmpdir=tempfolder, schema_version="1.0.2")
         else:
             raise NotImplementedError
     # Always delete the directory!
@@ -192,6 +195,9 @@ def _validate(filename, tmpdir, schema_version):
 
                 # Make sure the times on the name are approximately correct.
                 starttime, endtime = name.split("__")[1:3]
+                # Get rid of eventual nanoseconds starting with version 1.0.2.
+                starttime = re.sub("\.\d{9}", "", starttime)
+                endtime = re.sub("\.\d{9}", "", endtime)
                 # Set as UTC and convert to seconds since epoch.
                 starttime = starttime + 'Z'
                 endtime = endtime + 'Z'
