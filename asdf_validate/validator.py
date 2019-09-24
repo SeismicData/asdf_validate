@@ -47,6 +47,7 @@ _ASDF_SCHEMAS = {
     "1.0.0": os.path.join(_DIR, "schemas", "ASDF_1.0.0.json"),
     "1.0.1": os.path.join(_DIR, "schemas", "ASDF_1.0.1.json"),
     "1.0.2": os.path.join(_DIR, "schemas", "ASDF_1.0.2.json")
+    "1.0.3": os.path.join(_DIR, "schemas", "ASDF_1.0.3.json")
 }
 
 PROVENANCE_ID_PATTERN = re.compile(
@@ -100,6 +101,8 @@ def validate(filename):
             _validate(filename, tmpdir=tempfolder, schema_version="1.0.1")
         elif file_format_version == "1.0.2":
             _validate(filename, tmpdir=tempfolder, schema_version="1.0.2")
+        elif file_format_version == "1.0.3":
+            _validate(filename, tmpdir=tempfolder, schema_version="1.0.3")
         else:
             raise NotImplementedError
     # Always delete the directory!
